@@ -21,5 +21,18 @@ class DepartmentManager(BaseManager):
         return self.db.select(query)
 
     async def get_department(self, department_id):
-        query = f"SELECT * FROM {self.departments_table} WHERE id = %s"
+        query = f"""
+        SELECT 
+            d.*, 
+            COALESCE(
+                JSON_AGG(
+                    JSON_BUILD_OBJECT('id', p.id, 'name', p.name)
+                ) FILTER (WHERE p.id IS NOT NULL), 
+                '[]'::JSON
+            ) AS programs
+        FROM {self.departments_table} d
+        LEFT JOIN {self.programs_table} p ON p.department_id = d.id
+        WHERE d.id = %s
+        GROUP BY d.id
+        """
         return self.db.select(query, (department_id,))

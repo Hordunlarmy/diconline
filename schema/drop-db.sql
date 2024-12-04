@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS dic_applications CASCADE;
+DROP TABLE IF EXISTS dic_courses_enrollments CASCADE;
+DROP TABLE IF EXISTS dic_course_videos CASCADE;
 DROP TABLE IF EXISTS dic_courses CASCADE;
 DROP TABLE IF EXISTS dic_programs CASCADE;
 DROP TABLE IF EXISTS dic_departments CASCADE;

@@ -44,6 +44,27 @@ CREATE TABLE IF NOT EXISTS dic_courses (
     CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id)
 );
 
+CREATE TABLE IF NOT EXISTS dic_courses_enrollments (
+    id SERIAL PRIMARY KEY,
+    course_id INT NOT NULL,
+    student_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id),
+    CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES dic_accounts(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_course_videos (
+    id SERIAL PRIMARY KEY,
+    course_id INT NOT NULL,
+    video_url VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id)
+);
+
 CREATE TABLE IF NOT EXISTS dic_applications (
     id SERIAL PRIMARY KEY,
     photo_url VARCHAR(255) NOT NULL,

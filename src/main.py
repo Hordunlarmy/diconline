@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.modules.application.router import application_router
+from src.modules.course.router import course_router
 from src.modules.department.router import department_router
 from src.modules.program.router import program_router
 
@@ -21,9 +22,15 @@ def read_root():
     return {"Message": "Hello DIC"}
 
 
+@app.get("/api")
+def read_api():
+    return {"Message": "Hello DIC API"}
+
+
 router = APIRouter(prefix="/api")
 router.include_router(application_router)
 router.include_router(program_router)
 router.include_router(department_router)
+router.include_router(course_router)
 
 app.include_router(router)
