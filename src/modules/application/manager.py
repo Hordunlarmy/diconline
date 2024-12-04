@@ -1,0 +1,50 @@
+from src.shared.database import Database, database
+from src.shared.file_handler import upload_file
+
+
+class ApplicationManager:
+
+    def __init__(self, db: Database = database):
+        self.db = db
+        self.table = "dic_applications"
+
+    async def get_applications(self):
+        query = f"SELECT * FROM {self.table}"
+        return self.db.select(query)
+
+    async def get_application(self, application_id):
+        query = f"SELECT * FROM {self.table} WHERE id = %s"
+        return self.db.select(query, (application_id,))
+
+    async def create_application(self, data):
+        if data["photo"]:
+            photo_url = await upload_file(data["photo"], folder="photos")
+
+        if data["application_form"]:
+            application_form_url = await upload_file(
+                data["application_form"], folder="application_forms"
+            )
+
+        query = f"""
+            INSERT INTO {self.table} (
+                first_name, last_name, email, phone_number, gender, 
+                date_of_birth, program_id, photo_url, application_form_url
+            ) 
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id
+        """
+
+        return self.db.commit(
+            query,
+            (
+                data["first_name"],
+                data["last_name"],
+                data["email"],
+                data["phone"],
+                data["gender"],
+                data["dob"],
+                data["program_id"],
+                photo_url,
+                application_form_url,
+            ),
+        )
