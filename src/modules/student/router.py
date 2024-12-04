@@ -2,6 +2,7 @@ from typing import Optional
 
 from fastapi import APIRouter, Query, status
 
+from src.shared.dependency import user_dependency
 from src.shared.logger import logging
 
 from .manager import StudentManager
@@ -33,3 +34,12 @@ async def get_students(
             "order_by": order_by,
         }
     )
+
+
+@student_router.get("/courses", status_code=status.HTTP_200_OK)
+async def get_student_courses(
+    current_user: user_dependency,
+):
+    logging.info("Get student courses")
+
+    return await student_manager.get_student_courses(current_user.id)

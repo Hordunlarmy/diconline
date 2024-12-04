@@ -15,7 +15,8 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    id: str
+    id: int
+    account_type: int
     exp: datetime
     authenticated: bool = True
 

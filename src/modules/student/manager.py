@@ -14,7 +14,6 @@ class StudentManager(BaseManager):
         sort_by = data.get("sort_by", "created_at")
         order_by = data.get("order_by", "ASC")
 
-        # Normalize incoming sort_by to lowercase for comparison
         sort_by_map = {
             "id": "s.id",
             "created_at": "s.created_at",
@@ -68,3 +67,27 @@ class StudentManager(BaseManager):
                     "page_size": page_size,
                 },
             }
+
+    async def get_student(self, student_id):
+        query = f"""
+            SELECT 
+                a.*, s.*, d.name AS department
+            FROM {self.students_table} s
+            LEFT JOIN {self.accounts_table} a ON a.id = s.account_id
+            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            WHERE s.id = %s
+        """
+        return self.db.select(query, (student_id,))
+
+    async def get_student_courses(self, student_id):
+        query = f"""
+            SELECT 
+                c.name AS course_name,
+                COUNT(cv.id) AS total_videos
+            FROM {self.courses_table} c
+            LEFT JOIN {self.courses_enrollments_table} ce ON ce.course_id = c.id
+            LEFT JOIN {self.course_videos_table} cv ON cv.course_id = c.id
+            WHERE ce.student_id = %s
+            GROUP BY c.id, c.name
+        """
+        return self.db.select(query, (student_id,))
