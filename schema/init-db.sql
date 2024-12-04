@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS dic_account_types (
 CREATE TABLE IF NOT EXISTS dic_batches (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    year INT NOT NULL,
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -50,6 +51,7 @@ CREATE TABLE IF NOT EXISTS dic_staffs (
     id SERIAL PRIMARY KEY,
     account_id INT NOT NULL,
     department_id INT NOT NULL,
+    status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Resigned', 'Suspended')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),

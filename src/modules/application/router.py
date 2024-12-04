@@ -1,6 +1,6 @@
 from typing import Optional
 
-from fastapi import APIRouter, File, Form, UploadFile, status
+from fastapi import APIRouter, File, Form, Query, UploadFile, status
 
 from src.shared.logger import logging
 
@@ -44,7 +44,13 @@ async def create_application(
 
 
 @application_router.get("/", status_code=status.HTTP_200_OK)
-async def get_applications():
+async def get_applications(
+    page_size: Optional[int] = Query(10, ge=1, le=100),
+    page: Optional[int] = Query(1, ge=1),
+    status: Optional[str] = Query(None, max_length=50),
+):
     logging.info("Get Applications")
 
-    return await application_manager.get_applications()
+    return await application_manager.get_applications(
+        {"page": page, "page_size": page_size, "status": status}
+    )

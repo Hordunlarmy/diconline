@@ -8,9 +8,44 @@ class ApplicationManager(BaseManager):
     def __init__(self, db: Database = database):
         super().__init__(db)
 
-    async def get_applications(self):
-        query = f"SELECT * FROM {self.applications_table}"
-        return self.db.select(query)
+    async def get_applications(self, data):
+        page = data.get("page", 1)
+        page_size = data.get("page_size", 10)
+        status_filter = data.get("status", None)
+
+        offset = (page - 1) * page_size
+
+        query = f"""
+            SELECT a.id, CONCAT(a.first_name, ' ', a.last_name) AS name,
+                   p.name AS program, a.phone_number, a.email,
+                   a.created_at::DATE AS application_date
+            FROM {self.applications_table} a
+            LEFT JOIN {self.programs_table} p ON p.id = a.program_id
+        """
+
+        if status_filter:
+            query += f" WHERE a.status = '{status_filter}'"
+
+        query += (
+            f" ORDER BY a.created_at DESC LIMIT {page_size} OFFSET {offset}"
+        )
+
+        data_result = self.db.select(query)
+        total_count = await self._get_applications_count(status_filter)
+
+        total_pages = (total_count // page_size) + (
+            1 if total_count % page_size > 0 else 0
+        )
+
+        return {
+            "data": data_result,
+            "meta": {
+                "total": len(data_result),
+                "total_pages": total_pages,
+                "current_page": page,
+                "page_size": page_size,
+            },
+        }
 
     async def get_application(self, application_id):
         query = f"SELECT * FROM {self.applications_table} WHERE id = %s"
