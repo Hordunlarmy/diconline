@@ -106,25 +106,26 @@ INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
  'Explore practical strategies for building and maintaining peace.');
 
 -- Seed for accounts
-INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number)
+INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number, state, local_government, address)
 VALUES
-('Nathaniel', 'Coder', 'student@gmail.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
-('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678');
+('Nathaniel', 'Coder', 'student@gmail.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '123 Street Name, Ikeja, Lagos'),
+('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ogun', 'Abeokuta', '456 Lane, Abeokuta, Ogun'),
+('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ekiti', 'Ado-Ekiti', '789 Ado Ekiti Road, Ekiti'),
+('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Enugu', 'Enugu', '234 Enugu Central, Enugu'),
+('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '112 Central Avenue, Abuja'),
+('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '32 Kaduna City Road, Kaduna'),
+('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Anambra', 'Awka', '56 Awka Road, Anambra'),
+('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Imo', 'Owerri', '78 Owerri Lane, Imo'),
+('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kano', 'Kano', '90 Kano Main Street, Kano'),
+('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Delta', 'Asaba', '123 Asaba Drive, Delta'),
+('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Borno', 'Maiduguri', '234 Maiduguri Main Street, Borno'),
+('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Rivers', 'Port Harcourt', '456 Port Harcourt Road, Rivers'),
+('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Oyo', 'Ibadan', '789 Ibadan Road, Oyo'),
+('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Benue', 'Makurdi', '123 Makurdi Street, Benue'),
+('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '456 Street, Ikeja, Lagos'),
+('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '12 Kaduna Road, Kaduna'),
+('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
+
 
 
 -- Seed for students

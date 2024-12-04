@@ -68,14 +68,27 @@ class StudentManager(BaseManager):
                 },
             }
 
-    async def get_student(self, student_id):
+    async def get_student_profile(self, student_id):
         query = f"""
-            SELECT 
-                a.*, s.*, d.name AS department
-            FROM {self.students_table} s
-            LEFT JOIN {self.accounts_table} a ON a.id = s.account_id
+            SELECT DISTINCT ON (s.id) 
+                d.name AS department,
+                p.name AS program,
+                a.first_name || ' ' || a.last_name AS full_name,
+                s.next_of_kin_name AS next_of_kin,
+                TO_CHAR(p.created_at, 'DD Mon YYYY') AS program_start,
+                TO_CHAR(p.created_at + INTERVAL '1 year', 'DD Mon YYYY')
+                    AS program_end,
+                a.state,
+                a.local_government,
+                a.address,
+                a.phone_number,
+                a.email
+            FROM {self.accounts_table} a
+            LEFT JOIN {self.students_table} s ON s.account_id = a.id
             LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            LEFT JOIN {self.programs_table} p ON p.department_id = d.id
             WHERE s.id = %s
+            ORDER BY s.id, p.created_at DESC
         """
         return self.db.select(query, (student_id,))
 

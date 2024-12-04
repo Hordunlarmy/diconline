@@ -43,3 +43,12 @@ async def get_student_courses(
     logging.info("Get student courses")
 
     return await student_manager.get_student_courses(current_user.id)
+
+
+@student_router.get("/profile", status_code=status.HTTP_200_OK)
+async def get_student_profile(
+    current_user: user_dependency,
+):
+    logging.info("Get student profile")
+
+    return await student_manager.get_student_profile(current_user.id)
