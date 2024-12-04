@@ -5,30 +5,14 @@ INSERT INTO dic_account_types (name) VALUES
 ('Teacher'),
 ('Staff');
 
--- Seed for accounts
-INSERT INTO dic_accounts (username, email, first_name, last_name, account_type_id, password) VALUES
-('admin_adebayo', 'adebayo.admin@example.com', 'Adebayo', 'Ogunleye', 1, 'password'),
-('admin_ifeoma', 'ifeoma.admin@example.com', 'Ifeoma', 'Okafor', 1, 'password'),
-('staff_bello', 'bello.staff@example.com', 'Bello', 'Ahmed', 4, 'password'),
-('staff_funmi', 'funmi.staff@example.com', 'Funmilayo', 'Akinyemi', 4, 'password'),
-('student_bolaji', 'bolaji.student@example.com', 'Bolaji', 'Adebisi', 2, 'password'),
-('student_kemi', 'kemi.student@example.com', 'Kemi', 'Oladele', 2, 'password'),
-('student_chinedu', 'chinedu.student@example.com', 'Chinedu', 'Ibekwe', 2, 'password'),
-('student_amaka', 'amaka.student@example.com', 'Amaka', 'Eze', 2, 'password'),
-('student_ibrahim', 'ibrahim.student@example.com', 'Ibrahim', 'Aliyu', 2, 'password'),
-('student_ifeanyi', 'ifeanyi.student@example.com', 'Ifeanyi', 'Okoro', 2, 'password'),
-('student_ngozi', 'ngozi.student@example.com', 'Ngozi', 'Onwumere', 2, 'password'),
-('student_sheriff', 'sheriff.student@example.com', 'Sheriff', 'Adamu', 2, 'password'),
-('student_sola', 'sola.student@example.com', 'Sola', 'Ogunbiyi', 2, 'password'),
-('student_musa', 'musa.student@example.com', 'Musa', 'Garba', 2, 'password');
-
 -- Seed for departments
 INSERT INTO dic_departments (name, description) VALUES
 ('Department of Geography and Environmental Sustainability M.Sc. and PhD', 
  'Offering advanced studies in geography and environmental sustainability.'),
 ('Department of Computer Science', 'Department focused on computer science education and research.'),
 ('Department of Engineering', 'Department offering various engineering disciplines.'),
-('Arts', 'Department for creative arts and humanities.');
+('Arts', 'Department for creative arts and humanities.'),
+('Department of Social Sciences', 'Department offering social science programs.');
 
 INSERT INTO dic_programs (name, department_id, description) VALUES
 -- Existing programs
@@ -47,7 +31,9 @@ INSERT INTO dic_programs (name, department_id, description) VALUES
 ('Geographical Information Systems (GIS)', 1, 
  'Focuses on spatial data analysis and mapping technologies.'),
 ('Global Urbanization Studies', 1, 'Explores the challenges and opportunities of global urbanization.'),
-('Environmental Policy and Planning', 3, 'Examines the development and implementation of environmental policies.');
+('Environmental Policy and Planning', 3, 'Examines the development and implementation of environmental policies.'),
+('Software Engineering', 5, 'Focuses on software development and engineering principles.'),
+('Graphic Design', 5, 'Covers design principles and visual communication techniques.');
 
 -- Seed for courses
 INSERT INTO dic_courses (name, program_id, description) VALUES
@@ -79,7 +65,26 @@ INSERT INTO dic_courses (name, program_id, description) VALUES
 ('Disaster Risk Management', 12, 'Manage and mitigate risks associated with disasters.'),
 ('GIS Data Analysis', 13, 'Analyze spatial data using GIS tools.'),
 ('Urbanization Challenges', 14, 'Examine challenges of urbanization worldwide.'),
-('Environmental Policy Analysis', 15, 'Analyze and evaluate environmental policies.');
+('Environmental Policy Analysis', 15, 'Analyze and evaluate environmental policies.'),
+('Software Development Fundamentals', 16, 'Learn the basics of software development.'),
+('Web Development Technologies', 16, 'Explore web development tools and technologies.'),
+('Graphic Design Principles', 17, 'Understand the principles of graphic design.'),
+('Visual Communication Techniques', 17, 'Learn techniques for visual communication.');
+
+-- Seed for batches
+INSERT INTO dic_batches (name, description) VALUES
+('2014/2015', 'Batch for the academic year 2014/2015.'),
+('2015/2016', 'Batch for the academic year 2015/2016.'),
+('2016/2017', 'Batch for the academic year 2016/2017.'),
+('2017/2018', 'Batch for the academic year 2017/2018.'),
+('2018/2019', 'Batch for the academic year 2018/2019.'),
+('2019/2020', 'Batch for the academic year 2019/2020.'),
+('2020/2021', 'Batch for the academic year 2020/2021.'),
+('2021/2022', 'Batch for the academic year 2021/2022.'),
+('2022/2023', 'Batch for the academic year 2022/2023.'),
+('2023/2024', 'Batch for the academic year 2023/2024.'),
+('2024/2025', 'Batch for the academic year 2024/2025.'),
+('2025/2026', 'Batch for the academic year 2025/2026.');
 
 -- Seed for dic_course_videos
 INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
@@ -106,6 +111,47 @@ INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
 (6, 'https://example.com/videos/peacebuilding.mp4', 'Peacebuilding Strategies', 
  'Explore practical strategies for building and maintaining peace.');
 
+-- Seed for accounts
+INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number) VALUES
+('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, 'password', '+2347012345678'),
+('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, 'password', '+2347012345678'),
+('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, 'password', '+2347012345678');
+
+
+-- Seed for students
+INSERT INTO dic_students (account_id, batch_id, department_id, status) VALUES
+(1, 1, 1, 'Active'),
+(2, 1, 1, 'Dropout'),
+(3, 2, 2, 'Active'),
+(4, 2, 2, 'Active'),
+(5, 3, 3, 'Graduated'),
+(6, 3, 3, 'Active'),
+(7, 4, 4, 'Active'),
+(8, 4, 4, 'Active'),
+(9, 5, 5, 'Active'),
+(10, 5, 5, 'Dropout'),
+(11, 6, 5, 'Active'),
+(12, 6, 3, 'Active'),
+(13, 7, 1, 'Suspended');
+
+-- Seed for staffs
+INSERT INTO dic_staffs (account_id, department_id) VALUES
+(14, 1),
+(15, 2);
+
+
 -- Seed for dic_courses_enrollments
 INSERT INTO dic_courses_enrollments (course_id, student_id) VALUES
 (1, 6), 
@@ -124,12 +170,41 @@ INSERT INTO dic_courses_enrollments (course_id, student_id) VALUES
 
 -- Seed for applications
 INSERT INTO dic_applications (photo_url, first_name, last_name, email, phone_number, gender, date_of_birth, 
-program_id, application_form_url, description) VALUES
+program_id, application_form_url, description, status) VALUES
 ('https://example.com/photos/bolaji.jpg', 'Bolaji', 'Adebisi', 'bolaji.student@example.com', 
 '+2347012345678', 'Male', '2000-05-12', 1, 'https://example.com/forms/bolaji_form.pdf', 
-'Application for the Software Engineering program.'),
-
+'Application for the Software Engineering program.', 'Pending'),
 ('https://example.com/photos/ngozi.jpg', 'Ngozi', 'Onwumere', 'ngozi.student@example.com', 
 '+2348012345678', 'Female', '1998-11-22', 3, 'https://example.com/forms/ngozi_form.pdf', 
-'Application for the Graphic Design program.');
+'Application for the Graphic Design program.', 'Approved'),
+('https://example.com/photos/temi.jpg', 'Temi', 'Olajide', 'temi.student@example.com', 
+'+2349012345678', 'Female', '1999-08-15', 2, 'https://example.com/forms/temi_form.pdf', 
+'Application for the Business Administration program.', 'Rejected'),
+('https://example.com/photos/chris.jpg', 'Chris', 'Ugochukwu', 'chris.student@example.com', 
+'+2347012345679', 'Male', '2001-04-20', 1, 'https://example.com/forms/chris_form.pdf', 
+'Application for the Software Engineering program.', 'Pending'),
+('https://example.com/photos/adeola.jpg', 'Adeola', 'Fashola', 'adeola.student@example.com', 
+'+2347023456789', 'Female', '1997-02-28', 4, 'https://example.com/forms/adeola_form.pdf', 
+'Application for the Marketing program.', 'Approved'),
+('https://example.com/photos/stanley.jpg', 'Stanley', 'Okafor', 'stanley.student@example.com', 
+'+2347034567890', 'Male', '1995-10-14', 5, 'https://example.com/forms/stanley_form.pdf', 
+'Application for the Civil Engineering program.', 'Pending'),
+('https://example.com/photos/jane.jpg', 'Jane', 'Ademola', 'jane.student@example.com', 
+'+2347045678901', 'Female', '1999-06-30', 3, 'https://example.com/forms/jane_form.pdf', 
+'Application for the Graphic Design program.', 'Approved'),
+('https://example.com/photos/bamidele.jpg', 'Bamidele', 'Ogunyemi', 'bamidele.student@example.com', 
+'+2347056789012', 'Male', '2002-01-10', 2, 'https://example.com/forms/bamidele_form.pdf', 
+'Application for the Business Administration program.', 'Pending'),
+('https://example.com/photos/oluwaseun.jpg', 'Oluwaseun', 'Ibrahim', 'oluwaseun.student@example.com', 
+'+2347067890123', 'Male', '2001-09-05', 1, 'https://example.com/forms/oluwaseun_form.pdf', 
+'Application for the Software Engineering program.', 'Rejected'),
+('https://example.com/photos/faith.jpg', 'Faith', 'Ogundele', 'faith.student@example.com', 
+'+2347078901234', 'Female', '2000-12-17', 4, 'https://example.com/forms/faith_form.pdf', 
+'Application for the Marketing program.', 'Pending'),
+('https://example.com/photos/olumide.jpg', 'Olumide', 'Ajayi', 'olumide.student@example.com', 
+'+2347089012345', 'Male', '1998-03-22', 2, 'https://example.com/forms/olumide_form.pdf', 
+'Application for the Business Administration program.', 'Approved'),
+('https://example.com/photos/precious.jpg', 'Precious', 'Akinmoladun', 'precious.student@example.com', 
+'+2347090123456', 'Female', '2000-11-09', 5, 'https://example.com/forms/precious_form.pdf', 
+'Application for the Civil Engineering program.', 'Pending');
 

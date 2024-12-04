@@ -3,17 +3,12 @@ CREATE TABLE IF NOT EXISTS dic_account_types (
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS dic_accounts (
+CREATE TABLE IF NOT EXISTS dic_batches (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    account_type_id INT NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_account_type FOREIGN KEY (account_type_id) REFERENCES dic_account_types(id)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS dic_departments (
@@ -22,6 +17,43 @@ CREATE TABLE IF NOT EXISTS dic_departments (
     description TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS dic_accounts (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255) NOT NULL,
+    gender VARCHAR(255) NOT NULL,
+    account_type_id INT NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account_type FOREIGN KEY (account_type_id) REFERENCES dic_account_types(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_students (
+    id SERIAL PRIMARY KEY,
+    account_id INT NOT NULL,
+    batch_id INT NOT NULL,
+    department_id INT NOT NULL,
+    status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Dropout', 'Graduated', 'Suspended')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
+    CONSTRAINT fk_batch FOREIGN KEY (batch_id) REFERENCES dic_batches(id),
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_staffs (
+    id SERIAL PRIMARY KEY,
+    account_id INT NOT NULL,
+    department_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_programs (
@@ -77,6 +109,7 @@ CREATE TABLE IF NOT EXISTS dic_applications (
     program_id INT NOT NULL,
     application_form_url VARCHAR(255) NOT NULL,
     description TEXT,
+    status VARCHAR(255) DEFAULT 'Pending' CHECK (status IN ('Pending', 'Approved', 'Rejected')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id),

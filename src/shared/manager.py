@@ -11,3 +11,6 @@ class BaseManager:
         self.applications_table = "dic_applications"
         self.courses_enrollments_table = "dic_courses_enrollments"
         self.course_videos_table = "dic_course_videos"
+        self.students_table = "dic_students"
+        self.accounts_table = "dic_accounts"
+        self.staffs_table = "dic_staffs"
