@@ -1,9 +1,8 @@
 -- Seed for account_types
 INSERT INTO dic_account_types (name) VALUES 
-('Admin'),
 ('Student'),
-('Teacher'),
-('Staff');
+('Staff'),
+('Admin');
 
 -- Seed for departments
 INSERT INTO dic_departments (name, description) VALUES
@@ -107,22 +106,25 @@ INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
  'Explore practical strategies for building and maintaining peace.');
 
 -- Seed for accounts
-INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number) VALUES
-('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, 'password', '+2347012345678'),
-('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, 'password', '+2347012345678'),
-('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, 'password', '+2347012345678');
+INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number)
+VALUES
+('Nathaniel', 'Coder', 'student@gmail.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678'),
+('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678');
 
 
 -- Seed for students

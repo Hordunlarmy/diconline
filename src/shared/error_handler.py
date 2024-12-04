@@ -9,4 +9,4 @@ class CustomError(Exception):
         super().__init__(self.message)
 
     def __str__(self):
-        return f"{self.status_code}: {self.message}"
+        return f"{self.http_status_code}: {self.message}"

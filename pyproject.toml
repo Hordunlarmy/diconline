@@ -14,6 +14,9 @@ inquirerpy = "^0.3.4"
 psycopg2 = "^2.9.10"
 python-multipart = "^0.0.19"
 cloudinary = "^1.41.0"
+pyjwt = "^2.10.1"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-jose = "^3.3.0"
 
 
 [build-system]

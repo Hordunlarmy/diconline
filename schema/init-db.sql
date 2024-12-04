@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE IF NOT EXISTS dic_account_types (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL
@@ -22,11 +24,11 @@ CREATE TABLE IF NOT EXISTS dic_departments (
 
 CREATE TABLE IF NOT EXISTS dic_accounts (
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
     email VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255) NOT NULL,
-    gender VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255),
+    gender VARCHAR(255),
     account_type_id INT NOT NULL,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

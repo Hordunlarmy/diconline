@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+from src.shared.auth import ACCESS_TOKEN_EXPIRE_MINUTES, login_user
 from src.shared.database import Database, database
 
 
@@ -15,6 +18,40 @@ class BaseManager:
         self.accounts_table = "dic_accounts"
         self.staffs_table = "dic_staffs"
         self.batches_table = "dic_batches"
+
+    @staticmethod
+    async def account_exists(
+        db: Database = database, email=None, account_id=None
+    ):
+        query = """
+            SELECT id, email, password, account_type_id
+            FROM dic_accounts
+        """
+
+        if email:
+            query += f" WHERE email = '{email}'"
+
+        if account_id:
+            query += f" WHERE id = '{account_id}'"
+
+        result = db.select(query)
+
+        return result[0] if result else None
+
+    async def _with_accessToken(self, user_id, account_type):
+        """
+        Generate JWT for a user
+        """
+
+        remember_me = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        jwt = login_user(
+            remember_me,
+            data={
+                "id": user_id,
+                "account_type": account_type,
+            },
+        )
+        return jwt
 
     async def _get_applications_count(self, status_filter=None):
         count_query = f"""

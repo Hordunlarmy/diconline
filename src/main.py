@@ -1,13 +1,16 @@
-from fastapi import APIRouter, FastAPI
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from src.modules.application.router import application_router
+from src.modules.auth.router import auth_router
 from src.modules.batch.router import batch_router
 from src.modules.course.router import course_router
 from src.modules.dashboard.router import dashboard_router
 from src.modules.department.router import department_router
 from src.modules.program.router import program_router
 from src.modules.student.router import student_router
+from src.shared.error_handler import CustomError
 
 app = FastAPI()
 
@@ -30,7 +33,16 @@ def read_api():
     return {"Message": "Hello DIC API"}
 
 
+@app.exception_handler(CustomError)
+async def custom_error_handler(request: Request, exc: CustomError):
+    return JSONResponse(
+        status_code=exc.http_status_code,
+        content={"error": exc.message},
+    )
+
+
 router = APIRouter(prefix="/api")
+router.include_router(auth_router)
 router.include_router(application_router)
 router.include_router(dashboard_router)
 router.include_router(program_router)
