@@ -72,6 +72,8 @@ class StudentManager(BaseManager):
         query = f"""
             SELECT DISTINCT ON (s.id) 
                 d.name AS department,
+                d.head_of_department,
+                TO_CHAR(d.created_at, 'DD Mon YYYY') AS department_created_on,
                 p.name AS program,
                 a.first_name || ' ' || a.last_name AS full_name,
                 s.next_of_kin_name AS next_of_kin,

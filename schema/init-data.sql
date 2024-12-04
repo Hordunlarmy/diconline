@@ -5,13 +5,14 @@ INSERT INTO dic_account_types (name) VALUES
 ('Admin');
 
 -- Seed for departments
-INSERT INTO dic_departments (name, description) VALUES
+INSERT INTO dic_departments (name, description, head_of_department) VALUES
 ('Department of Geography and Environmental Sustainability M.Sc. and PhD', 
- 'Offering advanced studies in geography and environmental sustainability.'),
-('Department of Computer Science', 'Department focused on computer science education and research.'),
-('Department of Engineering', 'Department offering various engineering disciplines.'),
-('Arts', 'Department for creative arts and humanities.'),
-('Department of Social Sciences', 'Department offering social science programs.');
+ 'Offering advanced studies in geography and environmental sustainability.', 'Dr. John Doe'),
+('Department of Computer Science', 'Department focused on computer science education and research.', 'Prof. Jane Smith'),
+('Department of Engineering', 'Department offering various engineering disciplines.', 'Dr. Michael Johnson'),
+('Department of Business Administration', 'Department offering programs in business and management.', 'Dr. Sarah Brown'),
+('Department of Creative Arts', 'Department for creative arts and humanities.', 'Prof. David White'),
+('Department of Social Sciences', 'Department offering social science programs.', 'Dr. Emily Green');
 
 INSERT INTO dic_programs (name, department_id, description) VALUES
 -- Existing programs
@@ -206,4 +207,28 @@ program_id, application_form_url, description, status) VALUES
 ('https://example.com/photos/precious.jpg', 'Precious', 'Akinmoladun', 'precious.student@example.com', 
 '+2347090123456', 'Female', '2000-11-09', 5, 'https://example.com/forms/precious_form.pdf', 
 'Application for the Civil Engineering program.', 'Pending');
+
+-- Seed data for dic_exams
+INSERT INTO dic_exams (course_id, title, description, question_paper_url, duration, pass_mark, created_at, updated_at) VALUES
+(1, 'Final Exam: International Relations', 'This is the final exam for the International Relations and Diplomacy course. The exam covers all topics discussed during the course.', 'https://example.com/ir_exam.pdf', 120, 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Final Exam: Criminology', 'This exam covers criminology theories, types of crime, and the justice system.', 'https://example.com/criminology_exam.pdf', 90, 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 'Final Exam: Geography and Environmental Sustainability', 'This exam tests knowledge on climate change, geography, and sustainability practices.', 'https://example.com/geo_exam.pdf', 180, 65, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Seed data for dic_assignments
+INSERT INTO dic_assignments (course_id, title, description, due_date, pass_mark, created_at, updated_at) VALUES
+(1, 'Essay on Global Politics', 'Write a 2000-word essay on the role of global politics in international relations.', '2024-12-10', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 'Research Paper on Crime Prevention', 'Submit a research paper discussing modern crime prevention methods and their effectiveness.', '2024-12-15', 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 'Project on Sustainability Practices', 'Submit a project on sustainable farming practices for urban environments.', '2024-12-20', 55, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Seed data for dic_assignment_submissions
+INSERT INTO dic_assignment_submissions (assignment_id, student_id, submission_url, score, created_at, updated_at) VALUES
+(1, 1, 'https://example.com/submissions/ir_essay.pdf', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 2, 'https://example.com/submissions/criminology_paper.pdf', 45, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 3, 'https://example.com/submissions/geo_project.pdf', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+
+-- Seed data for dic_exam_results
+INSERT INTO dic_exam_results (exam_id, student_id, student_submission_url, score, created_at, updated_at) VALUES
+(1, 1, 'https://example.com/submissions/ir_exam.pdf', 75, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(2, 2, 'https://example.com/submissions/criminology_exam.pdf', 40, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+(3, 3, 'https://example.com/submissions/geo_exam.pdf', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS dic_departments (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    head_of_department VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -123,5 +124,54 @@ CREATE TABLE IF NOT EXISTS dic_applications (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id),
     CONSTRAINT chk_gender CHECK (gender IN ('Male', 'Female', 'Other'))
+);
+
+CREATE TABLE IF NOT EXISTS dic_exams (
+    id SERIAL PRIMARY KEY,
+    course_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    question_paper_url VARCHAR(255) NOT NULL,
+    duration INT NOT NULL,
+    pass_mark INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_assignments (
+    id SERIAL PRIMARY KEY,
+    course_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    due_date DATE NOT NULL,
+    pass_mark INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_assignment_submissions (
+    id SERIAL PRIMARY KEY,
+    assignment_id INT NOT NULL,
+    student_id INT NOT NULL,
+    submission_url VARCHAR(255) NOT NULL,
+    score INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_assignment FOREIGN KEY (assignment_id) REFERENCES dic_assignments(id),
+    CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES dic_accounts(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_exam_results (
+    id SERIAL PRIMARY KEY,
+    exam_id INT NOT NULL,
+    student_id INT NOT NULL,
+    student_submission_url VARCHAR(255) NOT NULL,
+    score INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_exam FOREIGN KEY (exam_id) REFERENCES dic_exams(id),
+    CONSTRAINT fk_student FOREIGN KEY (student_id) REFERENCES dic_accounts(id)
 );
 
