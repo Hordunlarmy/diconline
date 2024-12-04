@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS dic_students (
     batch_id INT NOT NULL,
     department_id INT NOT NULL,
     status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Dropout', 'Graduated', 'Suspended')),
+    enrollment_date DATE NOT NULL DEFAULT CURRENT_DATE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),

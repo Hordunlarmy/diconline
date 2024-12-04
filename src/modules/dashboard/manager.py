@@ -25,3 +25,53 @@ class DashboardManager(BaseManager):
             LEFT JOIN {self.courses_table} c ON c.program_id = p.id
         """
         return self.db.select(query)
+
+    async def get_student_dashboard(self, student_id):
+        query = f"""
+            -- Get current year data
+            WITH current_year_data AS (
+                SELECT 
+                    COUNT(DISTINCT CASE WHEN s.status = 'Active' THEN s.id END) AS active_students,
+                    COUNT(DISTINCT CASE WHEN s.status = 'Dropout' THEN s.id END) AS dropout_students,
+                    COUNT(DISTINCT s.id) AS total_students
+                FROM {self.students_table} s
+                WHERE EXTRACT(YEAR FROM s.created_at) = EXTRACT(YEAR FROM CURRENT_DATE)
+            ),
+
+            -- Get previous year data
+            previous_year_data AS (
+                SELECT 
+                    COUNT(DISTINCT CASE WHEN s.status = 'Active' THEN s.id END) AS active_students,
+                    COUNT(DISTINCT CASE WHEN s.status = 'Dropout' THEN s.id END) AS dropout_students,
+                    COUNT(DISTINCT s.id) AS total_students
+                FROM {self.students_table} s
+                WHERE EXTRACT(YEAR FROM s.created_at) = EXTRACT(YEAR FROM CURRENT_DATE) - 1
+            )
+
+            -- Main query to calculate current and percentage increase
+            SELECT 
+                current_year_data.active_students,
+                current_year_data.dropout_students,
+                current_year_data.total_students,
+                
+                -- Active students percentage increase
+                COALESCE(
+                    (current_year_data.active_students - previous_year_data.active_students) 
+                    * 100.0 / NULLIF(previous_year_data.active_students, 0), 0
+                ) AS active_students_percentage_increase,
+
+                -- Dropout students percentage increase
+                COALESCE(
+                    (current_year_data.dropout_students - previous_year_data.dropout_students) 
+                    * 100.0 / NULLIF(previous_year_data.dropout_students, 0), 0
+                ) AS dropout_students_percentage_increase,
+
+                -- Total students percentage increase
+                COALESCE(
+                    (current_year_data.total_students - previous_year_data.total_students) 
+                    * 100.0 / NULLIF(previous_year_data.total_students, 0), 0
+                ) AS total_students_percentage_increase
+
+            FROM current_year_data, previous_year_data
+        """
+        return self.db.select(query, (student_id, student_id))
