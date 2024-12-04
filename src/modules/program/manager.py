@@ -1,16 +1,16 @@
 from src.shared.database import Database, database
+from src.shared.manager import BaseManager
 
 
-class ProgramManager:
+class ProgramManager(BaseManager):
 
     def __init__(self, db: Database = database):
-        self.db = db
-        self.table = "dic_programs"
+        super().__init__(db)
 
     async def get_programs(self):
-        query = f"SELECT * FROM {self.table}"
+        query = f"SELECT * FROM {self.programs_table}"
         return self.db.select(query)
 
     async def get_program(self, program_id):
-        query = f"SELECT * FROM {self.table} WHERE id = %s"
+        query = f"SELECT * FROM {self.programs_table} WHERE id = %s"
         return self.db.select(query, (program_id,))

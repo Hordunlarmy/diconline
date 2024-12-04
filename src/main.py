@@ -2,6 +2,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.modules.application.router import application_router
+from src.modules.department.router import department_router
 from src.modules.program.router import program_router
 
 app = FastAPI()
@@ -23,5 +24,6 @@ def read_root():
 router = APIRouter(prefix="/api")
 router.include_router(application_router)
 router.include_router(program_router)
+router.include_router(department_router)
 
 app.include_router(router)

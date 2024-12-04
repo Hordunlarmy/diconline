@@ -1,19 +1,19 @@
 from src.shared.database import Database, database
 from src.shared.file_handler import upload_file
+from src.shared.manager import BaseManager
 
 
-class ApplicationManager:
+class ApplicationManager(BaseManager):
 
     def __init__(self, db: Database = database):
-        self.db = db
-        self.table = "dic_applications"
+        super().__init__(db)
 
     async def get_applications(self):
-        query = f"SELECT * FROM {self.table}"
+        query = f"SELECT * FROM {self.applications_table}"
         return self.db.select(query)
 
     async def get_application(self, application_id):
-        query = f"SELECT * FROM {self.table} WHERE id = %s"
+        query = f"SELECT * FROM {self.applications_table} WHERE id = %s"
         return self.db.select(query, (application_id,))
 
     async def create_application(self, data):
@@ -26,7 +26,7 @@ class ApplicationManager:
             )
 
         query = f"""
-            INSERT INTO {self.table} (
+            INSERT INTO {self.applications_table} (
                 first_name, last_name, email, phone_number, gender, 
                 date_of_birth, program_id, photo_url, application_form_url
             ) 
