@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS dic_exams (
     title VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     question_paper_url VARCHAR(255) NOT NULL,
+    start_date TIMESTAMP NOT NULL,
     duration INT NOT NULL,
     pass_mark INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

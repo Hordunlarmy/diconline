@@ -18,6 +18,10 @@ class BaseManager:
         self.accounts_table = "dic_accounts"
         self.staffs_table = "dic_staffs"
         self.batches_table = "dic_batches"
+        self.exams_table = "dic_exams"
+        self.exam_results_table = "dic_exam_results"
+        self.assignments_table = "dic_assignments"
+        self.assignment_submissions_table = "dic_assignment_submissions"
 
     @staticmethod
     async def account_exists(

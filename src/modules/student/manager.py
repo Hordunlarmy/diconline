@@ -100,9 +100,72 @@ class StudentManager(BaseManager):
                 c.name AS course_name,
                 COUNT(cv.id) AS total_videos
             FROM {self.courses_table} c
-            LEFT JOIN {self.courses_enrollments_table} ce ON ce.course_id = c.id
+            LEFT JOIN {self.courses_enrollments_table} ce 
+                ON ce.course_id = c.id
             LEFT JOIN {self.course_videos_table} cv ON cv.course_id = c.id
             WHERE ce.student_id = %s
             GROUP BY c.id, c.name
         """
         return self.db.select(query, (student_id,))
+
+    async def get_student_exams(self, student_id):
+        query = f"""
+            SELECT
+                d.name AS department,
+                c.name AS course,
+                TO_CHAR(e.start_date, 'DD-MM-YYYY') AS exam_date,
+                CONCAT(
+                    TO_CHAR(e.start_date, 'HH12:MI AM'), ' - ',
+                    TO_CHAR(
+                        e.start_date + (e.duration || ' minutes')::INTERVAL,
+                        'HH12:MI AM'
+                    )
+                ) AS time_range,
+                ROUND((e.pass_mark::FLOAT / e.duration * 100)::NUMERIC, 2)
+                    AS passing_percentage,
+                COUNT(er.id) AS total_attempts,
+                COALESCE(
+                    ROUND(AVG(er.score)::NUMERIC, 2),
+                    0
+                ) AS scored_percentage
+            FROM {self.exams_table} e
+            LEFT JOIN {self.exam_results_table} er ON er.exam_id = e.id
+            LEFT JOIN {self.students_table} s ON s.id = er.student_id
+            LEFT JOIN {self.courses_table} c ON c.id = e.course_id
+            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            WHERE er.student_id = %s
+            GROUP BY e.id, e.title, e.start_date, e.duration, e.pass_mark, c.name, d.name
+        """
+
+        results = self.db.select(query, (student_id,))
+        return results if results else []
+
+    async def get_student_assignments(self, student_id):
+        query = f"""
+            SELECT
+                d.name AS department,
+                c.name AS course,
+                a.title AS assignment_title,
+                TO_CHAR(a.created_at, 'DD-MM-YYYY') AS assigned_date,
+                TO_CHAR(a.due_date, 'DD-MM-YYYY') AS due_date,
+                TO_CHAR(a.due_date, 'HH12:MI AM') AS due_time,
+                ROUND(
+                    (a.pass_mark::FLOAT / 100 * 100)::NUMERIC,
+                    2
+                ) AS passing_percentage,
+                COALESCE(
+                    ROUND(AVG(asub.score)::NUMERIC, 2),
+                    0
+                ) AS scored_percentage
+            FROM {self.assignments_table} a
+            LEFT JOIN {self.assignment_submissions_table} asub 
+                ON asub.assignment_id = a.id
+            LEFT JOIN {self.students_table} s ON s.id = asub.student_id
+            LEFT JOIN {self.courses_table} c ON c.id = a.course_id
+            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            WHERE asub.student_id = %s
+            GROUP BY a.id, a.title, a.due_date, a.pass_mark, c.name, d.name
+        """
+
+        results = self.db.select(query, (student_id,))
+        return results if results else []
