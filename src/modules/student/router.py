@@ -63,6 +63,18 @@ async def get_student_exams(
     return await student_manager.get_student_exams(current_user.id)
 
 
+@student_router.get("/exams/results", status_code=status.HTTP_200_OK)
+async def get_student_exam_results(
+    current_user: user_dependency,
+    exam_id: Optional[int] = Query(None),
+):
+    logging.info("Get student exam results")
+
+    return await student_manager.get_student_exam_result(
+        exam_id, current_user.id
+    )
+
+
 @student_router.get("/assignments", status_code=status.HTTP_200_OK)
 async def get_student_assignments(
     current_user: user_dependency,

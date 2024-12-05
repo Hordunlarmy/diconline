@@ -111,6 +111,7 @@ class StudentManager(BaseManager):
     async def get_student_exams(self, student_id):
         query = f"""
             SELECT
+                e.id AS exam_id,
                 d.name AS department,
                 c.name AS course,
                 TO_CHAR(e.start_date, 'DD-MM-YYYY') AS exam_date,
@@ -143,6 +144,7 @@ class StudentManager(BaseManager):
     async def get_student_assignments(self, student_id):
         query = f"""
             SELECT
+                a.id AS assignment_id,
                 d.name AS department,
                 c.name AS course,
                 a.title AS assignment_title,
@@ -168,4 +170,28 @@ class StudentManager(BaseManager):
         """
 
         results = self.db.select(query, (student_id,))
+        return results if results else []
+
+    async def get_student_exam_result(self, exam_id, student_id):
+        query = f"""
+            SELECT 
+                er.id AS result_id,
+                CONCAT(a.first_name, ' ', a.last_name) AS student_name,
+                a.id AS student_id,
+                c.name AS course_name,
+                e.title AS exam_title,
+                TO_CHAR(er.created_at, 'HH12:MI AM | DD Month YYYY') AS result_date,
+                er.score AS student_score,
+                e.pass_mark AS passing_mark,
+                ROUND((er.score::FLOAT / e.pass_mark * 100)::NUMERIC, 2) AS student_percentage,
+                ROUND((e.pass_mark::FLOAT / e.duration * 100)::NUMERIC, 2) AS passing_percentage,
+                e.question_paper_url AS question_paper_url,
+                er.student_submission_url AS student_response_url
+            FROM {self.exam_results_table} er
+            LEFT JOIN {self.accounts_table} a ON a.id = er.student_id
+            LEFT JOIN {self.exams_table} e ON e.id = er.exam_id
+            LEFT JOIN {self.courses_table} c ON c.id = e.course_id
+            WHERE er.exam_id = %s AND er.student_id = %s
+        """
+        results = self.db.select(query, (exam_id, student_id))
         return results if results else []
