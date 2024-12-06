@@ -6,7 +6,7 @@ INSERT INTO dic_account_types (name) VALUES
 
 -- Seed for departments
 INSERT INTO dic_departments (name, description, head_of_department) VALUES
-('Department of Geography and Environmental Sustainability M.Sc. and PhD', 
+('Department of Geography and Environmental Sustainability', 
  'Offering advanced studies in geography and environmental sustainability.', 'Dr. John Doe'),
 ('Department of Computer Science', 'Department focused on computer science education and research.', 'Prof. Jane Smith'),
 ('Department of Engineering', 'Department offering various engineering disciplines.', 'Dr. Michael Johnson'),
@@ -14,62 +14,94 @@ INSERT INTO dic_departments (name, description, head_of_department) VALUES
 ('Department of Creative Arts', 'Department for creative arts and humanities.', 'Prof. David White'),
 ('Department of Social Sciences', 'Department offering social science programs.', 'Dr. Emily Green');
 
-INSERT INTO dic_programs (name, department_id, description) VALUES
--- Existing programs
-('Global Security and Terrorism', 1, 'Focuses on security studies, terrorism, and global challenges.'),
-('International Trade and Economics', 2, 'Covers trade relations and economic development.'),
-('Human Rights and Humanitarian Intervention', 3, 'Addresses human rights issues and interventions.'),
-('Climate Change and Global Governance', 4, 'Examines climate policy and governance challenges.'),
-('Diplomacy and Conflict Resolution', 1, 'Focuses on diplomacy and strategies for conflict resolution.'),
-('Conflict Resolution', 2, 'Specializes in theories and practices of conflict resolution.'),
-('Cartography', 3, 'Studies map-making techniques and their applications in geography.'),
-('Remote Sensing', 4, 'Focuses on satellite imagery and aerial photography in environmental studies.'),
-('Urban and Regional Planning', 1, 'Examines the planning and development of urban areas.'),
-('Environmental Impact Assessment', 2, 'Covers techniques to assess environmental impacts of projects.'),
-('Sustainable Development', 3, 'Focuses on sustainable practices in development and resource management.'),
-('Natural Disaster Management', 4, 'Explores strategies to manage and mitigate natural disasters.'),
-('Geographical Information Systems (GIS)', 1, 
- 'Focuses on spatial data analysis and mapping technologies.'),
-('Global Urbanization Studies', 1, 'Explores the challenges and opportunities of global urbanization.'),
-('Environmental Policy and Planning', 3, 'Examines the development and implementation of environmental policies.'),
-('Software Engineering', 5, 'Focuses on software development and engineering principles.'),
-('Graphic Design', 5, 'Covers design principles and visual communication techniques.');
+-- Seed for degrees
+INSERT INTO dic_degrees (name, description) VALUES
+('PGD', 'Postgraduate Diploma Program.'),
+('MSc', 'Master of Science Program.'),
+('PhD', 'Doctor of Philosophy Program.'),
+('MSP', 'Master of Science in Programming Program.');
+
+-- Seed for linking degrees and departments
+INSERT INTO dic_programs (degree_id, department_id) VALUES
+(1, 1),  -- PGD for Geography and Environmental Sustainability
+(2, 1),  -- MSc for Geography and Environmental Sustainability
+(3, 1),  -- PhD for Geography and Environmental Sustainability
+(4, 1),  -- MSP for Geography and Environmental Sustainability
+
+(1, 2),  -- PGD for Computer Science
+(2, 2),  -- MSc for Computer Science
+(3, 2),  -- PhD for Computer Science
+(4, 2),  -- MSP for Computer Science
+
+(1, 3),  -- PGD for Engineering
+(2, 3),  -- MSc for Engineering
+(3, 3),  -- PhD for Engineering
+(4, 3),  -- MSP for Engineering
+
+(1, 4),  -- PGD for Business Administration
+(2, 4),  -- MSc for Business Administration
+(3, 4),  -- PhD for Business Administration
+(4, 4),  -- MSP for Business Administration
+
+(1, 5),  -- PGD for Creative Arts
+(2, 5),  -- MSc for Creative Arts
+(3, 5),  -- PhD for Creative Arts
+(4, 5),  -- MSP for Creative Arts
+
+(1, 6),  -- PGD for Social Sciences
+(2, 6),  -- MSc for Social Sciences
+(3, 6),  -- PhD for Social Sciences
+(4, 6);  -- MSP for Social Sciences
 
 -- Seed for courses
-INSERT INTO dic_courses (name, program_id, description, created_at) VALUES
-('Introduction to Global Security', 1, 'Learn the fundamentals of global security studies.', '2021-01-01 00:00:00'),
-('Understanding Terrorism', 1, 'Examine terrorism as a global issue and its implications.', '2021-02-15 00:00:00'),
-('Security Policy Development', 1, 'Develop security policies for various scenarios.', '2021-03-01 00:00:00'),
-('Global Trade Dynamics', 2, 'Analyze trends in global trade and economics.', '2020-05-10 00:00:00'),
-('International Economic Policies', 2, 'Explore policies affecting global trade.', '2020-06-20 00:00:00'),
-('Trade and Economic Development', 2, 'Study trade as a tool for economic growth.', '2020-07-15 00:00:00'),
-('Introduction to Human Rights', 3, 'Understand the foundations of human rights.', '2022-09-10 00:00:00'),
-('Global Humanitarian Challenges', 3, 'Study humanitarian interventions worldwide.', '2022-09-18 00:00:00'),
-('Conflict and Human Rights', 3, 'Examine the intersection of human rights and conflict.', '2022-10-05 00:00:00'),
-('Climate Policy Frameworks', 4, 'Learn the structure of climate change policies.', '2023-03-12 00:00:00'),
-('Global Governance Systems', 4, 'Explore governance in addressing climate challenges.', '2023-04-01 00:00:00'),
-('Climate Change and Society', 4, 'Study the societal impacts of climate change.', '2023-04-15 00:00:00'),
-('Introduction to Diplomacy', 5, 'Understand the basics of diplomatic relations.', '2024-01-10 00:00:00'),
-('Conflict Management Strategies', 5, 'Learn effective strategies for managing conflicts.', '2024-01-20 00:00:00'),
-('Global Conflict Resolution', 5, 'Analyze case studies of global conflict resolution.', '2024-02-05 00:00:00'),
-('Conflict Resolution Theories', 6, 'Study theories underpinning conflict resolution.', '2024-02-15 00:00:00'),
-('Mediation Practices', 6, 'Learn the art of mediation in resolving disputes.', '2024-02-25 00:00:00'),
-('Peacebuilding Strategies', 6, 'Explore strategies to build and maintain peace.', '2024-03-05 00:00:00'),
-('Cartographic Techniques', 7, 'Learn techniques for map-making and analysis.', '2022-08-01 00:00:00'),
-('GIS Applications in Geography', 7, 'Apply GIS tools to geographical studies.', '2022-08-15 00:00:00'),
-('Remote Sensing Technologies', 8, 'Explore technologies for remote sensing and analysis.', '2023-07-01 00:00:00'),
-('Urban Planning Principles', 9, 'Understand the principles of urban planning.', '2021-06-10 00:00:00'),
-('Sustainable Urban Development', 9, 'Study sustainable practices in urban development.', '2021-07-01 00:00:00'),
-('Environmental Impact Assessment', 10, 'Assess the environmental impacts of projects.', '2020-11-01 00:00:00'),
-('Sustainable Development Practices', 11, 'Learn sustainable practices in development.', '2022-05-15 00:00:00'),
-('Disaster Risk Management', 12, 'Manage and mitigate risks associated with disasters.', '2023-02-20 00:00:00'),
-('GIS Data Analysis', 13, 'Analyze spatial data using GIS tools.', '2023-03-10 00:00:00'),
-('Urbanization Challenges', 14, 'Examine challenges of urbanization worldwide.', '2021-08-25 00:00:00'),
-('Environmental Policy Analysis', 15, 'Analyze and evaluate environmental policies.', '2024-04-01 00:00:00'),
-('Software Development Fundamentals', 16, 'Learn the basics of software development.', '2024-05-10 00:00:00'),
-('Web Development Technologies', 16, 'Explore web development tools and technologies.', '2024-05-15 00:00:00'),
-('Graphic Design Principles', 17, 'Understand the principles of graphic design.', '2022-12-01 00:00:00'),
-('Visual Communication Techniques', 17, 'Learn techniques for visual communication.', '2022-12-10 00:00:00');
+INSERT INTO dic_courses (name, description, created_at) VALUES
+('Introduction to Global Security', 'Learn the fundamentals of global security studies.', '2021-01-01 00:00:00'),
+('Understanding Terrorism', 'Examine terrorism as a global issue and its implications.', '2021-02-15 00:00:00'),
+('Security Policy Development', 'Develop security policies for various scenarios.', '2021-03-01 00:00:00'),
+('Global Trade Dynamics', 'Analyze trends in global trade and economics.', '2020-05-10 00:00:00'),
+('International Economic Policies', 'Explore policies affecting global trade.', '2020-06-20 00:00:00'),
+('Trade and Economic Development', 'Study trade as a tool for economic growth.', '2020-07-15 00:00:00'),
+('Introduction to Human Rights', 'Understand the foundations of human rights.', '2022-09-10 00:00:00'),
+('Global Humanitarian Challenges', 'Study humanitarian interventions worldwide.', '2022-09-18 00:00:00'),
+('Conflict and Human Rights', 'Examine the intersection of human rights and conflict.', '2022-10-05 00:00:00'),
+('Climate Policy Frameworks', 'Learn the structure of climate change policies.', '2023-03-12 00:00:00'),
+('Global Governance Systems', 'Explore governance in addressing climate challenges.', '2023-04-01 00:00:00'),
+('Climate Change and Society', 'Study the societal impacts of climate change.', '2023-04-15 00:00:00'),
+('Introduction to Diplomacy', 'Understand the basics of diplomatic relations.', '2024-01-10 00:00:00'),
+('Conflict Management Strategies', 'Learn effective strategies for managing conflicts.', '2024-01-20 00:00:00'),
+('Global Conflict Resolution', 'Analyze case studies of global conflict resolution.', '2024-02-05 00:00:00'),
+('Mediation Practices', 'Learn the art of mediation in resolving disputes.', '2024-02-25 00:00:00'),
+('Peacebuilding Strategies', 'Explore strategies to build and maintain peace.', '2024-03-05 00:00:00'),
+('Cartographic Techniques', 'Learn techniques for map-making and analysis.', '2022-08-01 00:00:00'),
+('GIS Applications in Geography', 'Apply GIS tools to geographical studies.', '2022-08-15 00:00:00'),
+('Remote Sensing Technologies', 'Explore technologies for remote sensing and analysis.', '2023-07-01 00:00:00'),
+('Urban Planning Principles', 'Understand the principles of urban planning.', '2021-06-10 00:00:00'),
+('Sustainable Urban Development', 'Study sustainable practices in urban development.', '2021-07-01 00:00:00'),
+('Environmental Impact Assessment', 'Assess the environmental impacts of projects.', '2020-11-01 00:00:00'),
+('Sustainable Development Practices', 'Learn sustainable practices in development.', '2022-05-15 00:00:00'),
+('Disaster Risk Management', 'Manage and mitigate risks associated with disasters.', '2023-02-20 00:00:00'),
+('GIS Data Analysis', 'Analyze spatial data using GIS tools.', '2023-03-10 00:00:00'),
+('Urbanization Challenges', 'Examine challenges of urbanization worldwide.', '2021-08-25 00:00:00'),
+('Environmental Policy Analysis', 'Analyze and evaluate environmental policies.', '2024-04-01 00:00:00'),
+('Software Development Fundamentals', 'Learn the basics of software development.', '2024-05-10 00:00:00'),
+('Web Development Technologies', 'Explore web development tools and technologies.', '2024-05-15 00:00:00'),
+('Graphic Design Principles', 'Understand the principles of graphic design.', '2022-12-01 00:00:00'),
+('Visual Communication Techniques', 'Learn techniques for visual communication.', '2022-12-10 00:00:00'),
+('Data Structures and Algorithms', 'Learn key data structures and algorithms.', '2023-01-01 00:00:00'),
+('Machine Learning Fundamentals', 'Understand the basics of machine learning.', '2023-02-01 00:00:00'),
+('Ethics in Technology', 'Explore ethical considerations in modern technology.', '2023-06-01 00:00:00'),
+('Climate Change Adaptation Strategies', 'Learn strategies for adapting to climate change.', '2023-06-15 00:00:00');
+;
+
+-- Seed for linking courses to programs
+INSERT INTO dic_programs_courses (program_id, course_id) VALUES
+(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
+(2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12),
+(3, 13), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18),
+(4, 19), (4, 20), (4, 21), (4, 22), (4, 23), (4, 24),
+(5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30),
+(6, 31), (6, 32), (6, 33), (6, 34), (6, 35), (6, 36);
+
 
 -- Seed for batches
 INSERT INTO dic_batches (name, year, description) VALUES
@@ -127,23 +159,21 @@ VALUES
 ('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '12 Kaduna Road, Kaduna'),
 ('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
 
-
-
 -- Seed for students
-INSERT INTO dic_students (account_id, batch_id, department_id, status) VALUES
+INSERT INTO dic_students (account_id, batch_id, program_id, status) VALUES
 (1, 1, 1, 'Active'),
-(2, 1, 1, 'Dropout'),
-(3, 2, 2, 'Active'),
-(4, 2, 2, 'Active'),
-(5, 3, 3, 'Graduated'),
-(6, 3, 3, 'Active'),
-(7, 4, 4, 'Active'),
-(8, 4, 4, 'Active'),
-(9, 5, 5, 'Active'),
-(10, 5, 5, 'Dropout'),
-(11, 6, 5, 'Active'),
-(12, 6, 3, 'Active'),
-(13, 7, 1, 'Suspended');
+(2, 1, 2, 'Dropout'),
+(3, 2, 3, 'Active'),
+(4, 2, 4, 'Active'),
+(5, 3, 5, 'Graduated'),
+(6, 3, 6, 'Active'),
+(7, 4, 7, 'Active'),
+(8, 4, 8, 'Active'),
+(9, 5, 9, 'Active'),
+(10, 5, 10, 'Dropout'),
+(11, 6, 11, 'Active'),
+(12, 6, 12, 'Active'),
+(13, 7, 13, 'Suspended');
 
 -- Seed for staffs
 INSERT INTO dic_staffs (account_id, department_id) VALUES

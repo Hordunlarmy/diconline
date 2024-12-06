@@ -18,10 +18,14 @@ class ApplicationManager(BaseManager):
 
         query = f"""
             SELECT a.id, CONCAT(a.first_name, ' ', a.last_name) AS name,
-                   p.name AS program, a.phone_number, a.email,
-                   a.created_at::DATE AS application_date
+                CONCAT(d.name, ' ', dg.name) AS program,
+                dg.name AS degree, d.name AS department,
+                a.phone_number, a.email,
+                a.created_at::DATE AS application_date
             FROM {self.applications_table} a
             LEFT JOIN {self.programs_table} p ON p.id = a.program_id
+            JOIN {self.departments_table} d ON d.id = p.department_id
+            JOIN {self.degrees_table} dg ON dg.id = p.degree_id
         """
 
         if status_filter:
@@ -49,7 +53,15 @@ class ApplicationManager(BaseManager):
         }
 
     async def get_application(self, application_id):
-        query = f"SELECT * FROM {self.applications_table} WHERE id = %s"
+        query = f"""
+            SELECT a.*, CONCAT(d.name, ' ', dg.name) AS program,
+            dg.name AS degree, d.name AS department
+            FROM {self.applications_table} a
+            LEFT JOIN {self.programs_table} p ON p.id = a.program_id
+            JOIN {self.departments_table} d ON d.id = p.department_id
+            JOIN {self.degrees_table} dg ON dg.id = p.degree_id
+            WHERE a.id = %s
+            """
         return self.db.select(query, (application_id,))
 
     async def create_application(self, data):

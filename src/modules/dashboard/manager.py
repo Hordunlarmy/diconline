@@ -20,9 +20,10 @@ class DashboardManager(BaseManager):
             FROM {self.accounts_table} ac
             LEFT JOIN {self.students_table} s ON s.account_id = ac.id
             LEFT JOIN {self.staffs_table} st ON st.account_id = ac.id
-            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
-            LEFT JOIN {self.programs_table} p ON p.department_id = d.id
-            LEFT JOIN {self.courses_table} c ON c.program_id = p.id
+            LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.departments_table} d ON d.id = p.department_id
+            LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id 
+            LEFT JOIN {self.courses_table} c ON c.id = pc.course_id
         """
         return self.db.select(query)
 

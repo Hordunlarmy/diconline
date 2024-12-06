@@ -14,6 +14,14 @@ CREATE TABLE IF NOT EXISTS dic_batches (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS dic_degrees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS dic_departments (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -21,6 +29,35 @@ CREATE TABLE IF NOT EXISTS dic_departments (
     head_of_department VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS dic_programs (
+    id SERIAL PRIMARY KEY,
+    degree_id INT NOT NULL,
+    department_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_degree FOREIGN KEY (degree_id) REFERENCES dic_degrees(id),
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
+);
+
+CREATE TABLE IF NOT EXISTS dic_courses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS dic_programs_courses (
+    id SERIAL PRIMARY KEY,
+    program_id INT NOT NULL,
+    course_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id),
+    CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id),
+    CONSTRAINT unique_program_course UNIQUE (program_id, course_id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_accounts (
@@ -44,7 +81,7 @@ CREATE TABLE IF NOT EXISTS dic_students (
     id SERIAL PRIMARY KEY,
     account_id INT NOT NULL,
     batch_id INT NOT NULL,
-    department_id INT NOT NULL,
+    program_id INT NOT NULL,
     next_of_kin_name VARCHAR(255),
     status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Dropout', 'Graduated', 'Suspended')),
     enrollment_date DATE NOT NULL DEFAULT CURRENT_DATE,
@@ -52,7 +89,7 @@ CREATE TABLE IF NOT EXISTS dic_students (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
     CONSTRAINT fk_batch FOREIGN KEY (batch_id) REFERENCES dic_batches(id),
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
+    CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_staffs (
@@ -64,26 +101,6 @@ CREATE TABLE IF NOT EXISTS dic_staffs (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
-);
-
-CREATE TABLE IF NOT EXISTS dic_programs (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    department_id INT NOT NULL,
-    description TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
-);
-
-CREATE TABLE IF NOT EXISTS dic_courses (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    program_id INT NOT NULL,
-    description TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_courses_enrollments (
