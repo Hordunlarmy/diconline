@@ -17,3 +17,10 @@ async def get_programs(department_id: int = None):
     logging.info("Get Programs")
 
     return await program_manager.get_programs(department_id)
+
+
+@program_router.get("/", status_code=status.HTTP_200_OK)
+async def get_all_programs():
+    logging.info("Get All Programs")
+
+    return await program_manager.get_all_programs()

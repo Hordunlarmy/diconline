@@ -21,6 +21,10 @@ class ProgramManager(BaseManager):
 
         return self.db.select(query, (department_id,))
 
+    async def get_all_programs(self):
+        query = f"SELECT * FROM {self.programs_table}"
+        return self.db.select(query)
+
     async def get_program(self, program_id):
         query = f"SELECT * FROM {self.programs_table} WHERE id = %s"
         return self.db.select(query, (program_id,))
