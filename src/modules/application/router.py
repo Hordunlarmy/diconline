@@ -54,3 +54,10 @@ async def get_applications(
     return await application_manager.get_applications(
         {"page": page, "page_size": page_size, "status": status}
     )
+
+
+@application_router.get("/{application_id}", status_code=status.HTTP_200_OK)
+async def get_application(application_id: int):
+    logging.info("Get Application")
+
+    return await application_manager.get_application(application_id)
