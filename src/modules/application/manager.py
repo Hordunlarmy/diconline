@@ -1,4 +1,5 @@
 from src.shared.database import Database, database
+from src.shared.error_handler import CustomError
 from src.shared.file_handler import upload_file
 from src.shared.manager import BaseManager
 
@@ -54,11 +55,15 @@ class ApplicationManager(BaseManager):
     async def create_application(self, data):
         if data["photo"]:
             photo_url = await upload_file(data["photo"], folder="photos")
+        else:
+            raise CustomError("Photo is required", status_code=400)
 
         if data["application_form"]:
             application_form_url = await upload_file(
                 data["application_form"], folder="application_forms"
             )
+        else:
+            raise CustomError("Application form is required", status_code=400)
 
         query = f"""
             INSERT INTO {self.applications_table} (
