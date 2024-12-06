@@ -35,7 +35,8 @@ class StudentManager(BaseManager):
             offset = (page - 1) * page_size
 
             query = f"""
-                SELECT 
+                SELECT
+                    s.id,
                     CONCAT(a.first_name, ' ', a.last_name) AS name,
                     d.name AS department,
                     a.phone_number,

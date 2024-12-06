@@ -39,10 +39,12 @@ async def get_students(
 @student_router.get("/courses", status_code=status.HTTP_200_OK)
 async def get_student_courses(
     current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
 ):
     logging.info("Get student courses")
 
-    return await student_manager.get_student_courses(current_user.id)
+    id = student_id if student_id else current_user.id
+    return await student_manager.get_student_courses(id)
 
 
 @student_router.get("/profile", status_code=status.HTTP_200_OK)
@@ -57,28 +59,32 @@ async def get_student_profile(
 @student_router.get("/exams", status_code=status.HTTP_200_OK)
 async def get_student_exams(
     current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
 ):
     logging.info("Get student exams")
 
-    return await student_manager.get_student_exams(current_user.id)
+    id = student_id if student_id else current_user.id
+    return await student_manager.get_student_exams(id)
 
 
 @student_router.get("/exams/results", status_code=status.HTTP_200_OK)
 async def get_student_exam_results(
     current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
     exam_id: Optional[int] = Query(None),
 ):
     logging.info("Get student exam results")
 
-    return await student_manager.get_student_exam_result(
-        exam_id, current_user.id
-    )
+    id = student_id if student_id else current_user.id
+    return await student_manager.get_student_exam_result(exam_id, id)
 
 
 @student_router.get("/assignments", status_code=status.HTTP_200_OK)
 async def get_student_assignments(
     current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
 ):
     logging.info("Get student assignments")
 
-    return await student_manager.get_student_assignments(current_user.id)
+    id = student_id if student_id else current_user.id
+    return await student_manager.get_student_assignments(id)
