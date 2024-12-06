@@ -27,3 +27,12 @@ async def register(form_data: CreateAccount):
     logging.info("Register")
 
     return await auth_manager.register(form_data)
+
+
+@auth_router.get("/user", status_code=status.HTTP_200_OK)
+async def get_user(
+    current_user: user_dependency,
+):
+    logging.info("Get user")
+
+    return await auth_manager.get_user(current_user.id)

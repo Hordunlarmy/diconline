@@ -42,3 +42,19 @@ class AuthManager(BaseManager):
         return await self._with_accessToken(
             account_id, user_data.account_type_id
         )
+
+    async def get_user(self, user_id):
+        query = f"""
+            SELECT a.id, a.first_name, a.last_name, a.email, a.phone_number,
+                a.state, a.local_government, a.address, a.gender,
+                a.account_type_id, at.name AS account_type
+            FROM {self.accounts_table} a
+            JOIN {self.account_types_table} at ON a.account_type_id = at.id
+            WHERE a.id = %s
+        """
+
+        user = self.db.select(query, (user_id,))
+        if not user:
+            raise CustomError("User not found", 404)
+
+        return user
