@@ -77,7 +77,8 @@ class BaseManager:
             SELECT COUNT(*)
             FROM {self.students_table} s
             LEFT JOIN {self.accounts_table} a ON a.id = s.account_id
-            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.departments_table} d ON d.id = p.department_id
         """
 
         if status_filter:

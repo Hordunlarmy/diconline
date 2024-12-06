@@ -42,7 +42,8 @@ class StudentManager(BaseManager):
                     s.created_at::DATE AS enrollment_date
                 FROM {self.students_table} s
                 LEFT JOIN {self.accounts_table} a ON a.id = s.account_id
-                LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+                LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+                LEFT JOIN {self.departments_table} d ON d.id = p.department_id
             """
 
             if status_filter:
@@ -73,8 +74,9 @@ class StudentManager(BaseManager):
             SELECT DISTINCT ON (s.id) 
                 d.name AS department,
                 d.head_of_department,
+                dg.name AS degree,
                 TO_CHAR(d.created_at, 'DD Mon YYYY') AS department_created_on,
-                p.name AS program,
+                CONCAT(d.name, ' ', dg.name) AS program,
                 a.first_name || ' ' || a.last_name AS full_name,
                 s.next_of_kin_name AS next_of_kin,
                 TO_CHAR(p.created_at, 'DD Mon YYYY') AS program_start,
@@ -87,8 +89,9 @@ class StudentManager(BaseManager):
                 a.email
             FROM {self.accounts_table} a
             LEFT JOIN {self.students_table} s ON s.account_id = a.id
-            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
-            LEFT JOIN {self.programs_table} p ON p.department_id = d.id
+            LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.departments_table} d ON d.id = p.department_id
+            JOIN {self.degrees_table} dg ON dg.id = p.degree_id
             WHERE s.id = %s
             ORDER BY s.id, p.created_at DESC
         """
@@ -133,9 +136,12 @@ class StudentManager(BaseManager):
             LEFT JOIN {self.exam_results_table} er ON er.exam_id = e.id
             LEFT JOIN {self.students_table} s ON s.id = er.student_id
             LEFT JOIN {self.courses_table} c ON c.id = e.course_id
-            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.departments_table} d ON d.id = p.department_id
+
             WHERE er.student_id = %s
-            GROUP BY e.id, e.title, e.start_date, e.duration, e.pass_mark, c.name, d.name
+            GROUP BY e.id, e.title, e.start_date, e.duration, e.pass_mark,
+            c.name, d.name
         """
 
         results = self.db.select(query, (student_id,))
@@ -164,7 +170,8 @@ class StudentManager(BaseManager):
                 ON asub.assignment_id = a.id
             LEFT JOIN {self.students_table} s ON s.id = asub.student_id
             LEFT JOIN {self.courses_table} c ON c.id = a.course_id
-            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+            LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.departments_table} d ON d.id = p.department_id
             WHERE asub.student_id = %s
             GROUP BY a.id, a.title, a.due_date, a.pass_mark, c.name, d.name
         """
