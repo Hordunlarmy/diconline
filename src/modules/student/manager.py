@@ -100,7 +100,8 @@ class StudentManager(BaseManager):
 
     async def get_student_courses(self, student_id):
         query = f"""
-            SELECT 
+            SELECT
+                c.id AS course_id,
                 c.name AS course_name,
                 COUNT(cv.id) AS total_videos
             FROM {self.courses_table} c

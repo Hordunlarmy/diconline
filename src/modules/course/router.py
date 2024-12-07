@@ -19,6 +19,13 @@ async def get_courses(program_id: int = Query(default=None)):
     return await course_manager.get_courses(program_id)
 
 
+@course_router.get("/students", status_code=status.HTTP_200_OK)
+async def get_course_students(course_id: int = Query(None)):
+    logging.info("Get course students")
+
+    return await course_manager.get_course_students(course_id)
+
+
 @course_router.get("/{course_id}", status_code=status.HTTP_200_OK)
 async def get_course(course_id: int):
     logging.info("Get course")
@@ -31,3 +38,10 @@ async def get_course_with_students(course_id: int):
     logging.info("Get course with students")
 
     return await course_manager.get_course_with_students(course_id)
+
+
+@course_router.get("/{course_id}/videos", status_code=status.HTTP_200_OK)
+async def get_course_videos(course_id: int):
+    logging.info("Get course videos")
+
+    return await course_manager.get_course_videos(course_id)

@@ -67,3 +67,24 @@ class CourseManager(BaseManager):
         GROUP BY c.id, c.name, c.description, c.created_at, c.updated_at
         """
         return self.db.select(query, (course_id,))
+
+    async def get_course_videos(self, course_id):
+        query = f"""
+        SELECT *
+        FROM {self.course_videos_table}
+        WHERE course_id = %s
+        """
+        return self.db.select(query, (course_id,))
+
+    async def get_course_students(self, course_id):
+        query = f"""
+        SELECT 
+            s.id,
+            a.first_name,
+            a.last_name
+        FROM {self.students_table} s
+        LEFT JOIN {self.accounts_table} a ON s.account_id = a.id
+        LEFT JOIN {self.courses_enrollments_table} ce ON ce.student_id = s.id
+        WHERE ce.course_id = %s
+        """
+        return self.db.select(query, (course_id,))
