@@ -88,3 +88,14 @@ class CourseManager(BaseManager):
         WHERE ce.course_id = %s
         """
         return self.db.select(query, (course_id,))
+
+    async def add_course_video(self, data):
+        course_id = data.get("course_id")
+        video_url = data.get("video_url")
+
+        query = f"""
+        INSERT INTO {self.course_videos_table} (course_id, video_url)
+        VALUES (%s, %s)
+        RETURNING id
+        """
+        return self.db.commit(query, (course_id, video_url))

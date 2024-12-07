@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS dic_course_videos (
     id SERIAL PRIMARY KEY,
     course_id INT NOT NULL,
     video_url VARCHAR(255) NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
+    title VARCHAR(255),
+    description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_course FOREIGN KEY (course_id) REFERENCES dic_courses(id)

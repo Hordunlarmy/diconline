@@ -26,6 +26,13 @@ async def get_course_students(course_id: int = Query(None)):
     return await course_manager.get_course_students(course_id)
 
 
+@course_router.post("/videos", status_code=status.HTTP_201_CREATED)
+async def create_course_video(data: dict):
+    logging.info("Create course video")
+
+    return await course_manager.add_course_video(data)
+
+
 @course_router.get("/{course_id}", status_code=status.HTTP_200_OK)
 async def get_course(course_id: int):
     logging.info("Get course")
