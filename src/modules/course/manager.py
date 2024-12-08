@@ -92,10 +92,15 @@ class CourseManager(BaseManager):
     async def add_course_video(self, data):
         course_id = data.get("course_id")
         video_url = data.get("video_url")
+        title = data.get("title", None)
+        description = data.get("description", None)
 
         query = f"""
-        INSERT INTO {self.course_videos_table} (course_id, video_url)
-        VALUES (%s, %s)
+        INSERT INTO {self.course_videos_table} (course_id, video_url, title, 
+        description)
+        VALUES (%s, %s, %s, %s)
         RETURNING id
         """
-        return self.db.commit(query, (course_id, video_url))
+        return self.db.commit(
+            query, (course_id, video_url, title, description)
+        )

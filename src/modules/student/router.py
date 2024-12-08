@@ -50,10 +50,12 @@ async def get_student_courses(
 @student_router.get("/profile", status_code=status.HTTP_200_OK)
 async def get_student_profile(
     current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
 ):
     logging.info("Get student profile")
 
-    return await student_manager.get_student_profile(current_user.id)
+    id = student_id if student_id else current_user.id
+    return await student_manager.get_student_profile(id)
 
 
 @student_router.get("/exams", status_code=status.HTTP_200_OK)
