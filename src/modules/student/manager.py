@@ -72,6 +72,42 @@ class StudentManager(BaseManager):
 
     async def get_student_profile(self, student_id):
         query = f"""
+            WITH exam_stats AS (
+                SELECT
+                    s.id AS student_id,
+                    COUNT(DISTINCT e.id) AS total_exams,
+                    COUNT(DISTINCT er.id) AS attempted_exams,
+                    COUNT(DISTINCT CASE WHEN er.score >= e.pass_mark THEN er.id END) 
+                        AS passed_exams,
+                    COUNT(DISTINCT CASE WHEN er.score < e.pass_mark THEN er.id END) 
+                        AS failed_exams
+                FROM {self.students_table} s
+                LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+                LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id
+                LEFT JOIN {self.exams_table} e ON e.course_id = pc.course_id
+                LEFT JOIN {self.exam_results_table} er 
+                    ON er.exam_id = e.id AND er.student_id = s.id
+                WHERE s.id = %s
+                GROUP BY s.id
+            ),
+            assignment_stats AS (
+                SELECT
+                    s.id AS student_id,
+                    COUNT(DISTINCT asm.id) AS total_assignments,
+                    COUNT(DISTINCT asub.id) AS submitted_assignments,
+                    COUNT(DISTINCT CASE WHEN asub.score >= asm.pass_mark THEN asub.id END) 
+                        AS passed_assignments,
+                    COUNT(DISTINCT CASE WHEN asub.score < asm.pass_mark THEN asub.id END) 
+                        AS failed_assignments
+                FROM {self.students_table} s
+                LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+                LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id
+                LEFT JOIN {self.assignments_table} asm ON asm.course_id = pc.course_id
+                LEFT JOIN {self.assignment_submissions_table} asub 
+                    ON asub.assignment_id = asm.id AND asub.student_id = s.id
+                WHERE s.id = %s
+                GROUP BY s.id
+            )
             SELECT DISTINCT ON (s.id) 
                 d.name AS department,
                 d.head_of_department,
@@ -81,22 +117,38 @@ class StudentManager(BaseManager):
                 a.first_name || ' ' || a.last_name AS full_name,
                 s.next_of_kin_name AS next_of_kin,
                 TO_CHAR(p.created_at, 'DD Mon YYYY') AS program_start,
-                TO_CHAR(p.created_at + INTERVAL '1 year', 'DD Mon YYYY')
-                    AS program_end,
+                TO_CHAR(p.created_at + INTERVAL '1 year', 'DD Mon YYYY') AS program_end,
                 a.state,
                 a.local_government,
                 a.address,
                 a.phone_number,
-                a.email
+                a.email,
+                JSON_BUILD_OBJECT(
+                    'total_exams', es.total_exams,
+                    'attempted_exams', es.attempted_exams,
+                    'passed_exams', es.passed_exams,
+                    'failed_exams', es.failed_exams
+                ) AS exam_stats,
+                JSON_BUILD_OBJECT(
+                    'total_assignments', ast.total_assignments,
+                    'submitted_assignments', ast.submitted_assignments,
+                    'passed_assignments', ast.passed_assignments,
+                    'failed_assignments', ast.failed_assignments
+                ) AS assignment_stats
+
             FROM {self.accounts_table} a
             LEFT JOIN {self.students_table} s ON s.account_id = a.id
             LEFT JOIN {self.programs_table} p ON p.id = s.program_id
+            LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id
             LEFT JOIN {self.departments_table} d ON d.id = p.department_id
-            JOIN {self.degrees_table} dg ON dg.id = p.degree_id
+            LEFT JOIN {self.degrees_table} dg ON dg.id = p.degree_id
+            LEFT JOIN exam_stats es ON es.student_id = s.id
+            LEFT JOIN assignment_stats ast ON ast.student_id = s.id
+
             WHERE s.id = %s
             ORDER BY s.id, p.created_at DESC
         """
-        return self.db.select(query, (student_id,))
+        return self.db.select(query, (student_id, student_id, student_id))
 
     async def get_student_courses(self, student_id):
         query = f"""
