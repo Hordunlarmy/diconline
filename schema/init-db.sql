@@ -5,6 +5,23 @@ CREATE TABLE IF NOT EXISTS dic_account_types (
     name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS dic_accounts (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    email VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(255),
+    state VARCHAR(255),
+    local_government VARCHAR(255),
+    address TEXT,
+    gender VARCHAR(255),
+    account_type_id INT NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account_type FOREIGN KEY (account_type_id) REFERENCES dic_account_types(id)
+);
+
 CREATE TABLE IF NOT EXISTS dic_batches (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -41,12 +58,26 @@ CREATE TABLE IF NOT EXISTS dic_programs (
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
 );
 
+CREATE TABLE IF NOT EXISTS dic_staffs (
+    id SERIAL PRIMARY KEY,
+    account_id INT NOT NULL,
+    department_id INT NOT NULL,
+    status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Resigned', 'Suspended')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
+);
+
 CREATE TABLE IF NOT EXISTS dic_courses (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    credit_unit INT,
+    lecturer_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_lecturer FOREIGN KEY (lecturer_id) REFERENCES dic_staffs(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_programs_courses (
@@ -60,22 +91,6 @@ CREATE TABLE IF NOT EXISTS dic_programs_courses (
     CONSTRAINT unique_program_course UNIQUE (program_id, course_id)
 );
 
-CREATE TABLE IF NOT EXISTS dic_accounts (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255),
-    last_name VARCHAR(255),
-    email VARCHAR(255) NOT NULL,
-    phone_number VARCHAR(255),
-    state VARCHAR(255),
-    local_government VARCHAR(255),
-    address TEXT,
-    gender VARCHAR(255),
-    account_type_id INT NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_account_type FOREIGN KEY (account_type_id) REFERENCES dic_account_types(id)
-);
 
 CREATE TABLE IF NOT EXISTS dic_students (
     id SERIAL PRIMARY KEY,
@@ -90,17 +105,6 @@ CREATE TABLE IF NOT EXISTS dic_students (
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
     CONSTRAINT fk_batch FOREIGN KEY (batch_id) REFERENCES dic_batches(id),
     CONSTRAINT fk_program FOREIGN KEY (program_id) REFERENCES dic_programs(id)
-);
-
-CREATE TABLE IF NOT EXISTS dic_staffs (
-    id SERIAL PRIMARY KEY,
-    account_id INT NOT NULL,
-    department_id INT NOT NULL,
-    status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Resigned', 'Suspended')),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_courses_enrollments (
@@ -161,6 +165,7 @@ CREATE TABLE IF NOT EXISTS dic_assignments (
     id SERIAL PRIMARY KEY,
     course_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
+    assignment_url VARCHAR(255),
     description TEXT NOT NULL,
     due_date DATE NOT NULL,
     pass_mark INT NOT NULL,
@@ -173,7 +178,7 @@ CREATE TABLE IF NOT EXISTS dic_assignment_submissions (
     id SERIAL PRIMARY KEY,
     assignment_id INT NOT NULL,
     student_id INT NOT NULL,
-    submission_url VARCHAR(255) NOT NULL,
+    submission_url VARCHAR(255),
     score INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

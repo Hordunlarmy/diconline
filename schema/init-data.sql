@@ -53,55 +53,6 @@ INSERT INTO dic_programs (degree_id, department_id) VALUES
 (3, 6),  -- PhD for Social Sciences
 (4, 6);  -- MSP for Social Sciences
 
--- Seed for courses
-INSERT INTO dic_courses (name, description, created_at) VALUES
-('Introduction to Global Security', 'Learn the fundamentals of global security studies.', '2021-01-01 00:00:00'),
-('Understanding Terrorism', 'Examine terrorism as a global issue and its implications.', '2021-02-15 00:00:00'),
-('Security Policy Development', 'Develop security policies for various scenarios.', '2021-03-01 00:00:00'),
-('Global Trade Dynamics', 'Analyze trends in global trade and economics.', '2020-05-10 00:00:00'),
-('International Economic Policies', 'Explore policies affecting global trade.', '2020-06-20 00:00:00'),
-('Trade and Economic Development', 'Study trade as a tool for economic growth.', '2020-07-15 00:00:00'),
-('Introduction to Human Rights', 'Understand the foundations of human rights.', '2022-09-10 00:00:00'),
-('Global Humanitarian Challenges', 'Study humanitarian interventions worldwide.', '2022-09-18 00:00:00'),
-('Conflict and Human Rights', 'Examine the intersection of human rights and conflict.', '2022-10-05 00:00:00'),
-('Climate Policy Frameworks', 'Learn the structure of climate change policies.', '2023-03-12 00:00:00'),
-('Global Governance Systems', 'Explore governance in addressing climate challenges.', '2023-04-01 00:00:00'),
-('Climate Change and Society', 'Study the societal impacts of climate change.', '2023-04-15 00:00:00'),
-('Introduction to Diplomacy', 'Understand the basics of diplomatic relations.', '2024-01-10 00:00:00'),
-('Conflict Management Strategies', 'Learn effective strategies for managing conflicts.', '2024-01-20 00:00:00'),
-('Global Conflict Resolution', 'Analyze case studies of global conflict resolution.', '2024-02-05 00:00:00'),
-('Mediation Practices', 'Learn the art of mediation in resolving disputes.', '2024-02-25 00:00:00'),
-('Peacebuilding Strategies', 'Explore strategies to build and maintain peace.', '2024-03-05 00:00:00'),
-('Cartographic Techniques', 'Learn techniques for map-making and analysis.', '2022-08-01 00:00:00'),
-('GIS Applications in Geography', 'Apply GIS tools to geographical studies.', '2022-08-15 00:00:00'),
-('Remote Sensing Technologies', 'Explore technologies for remote sensing and analysis.', '2023-07-01 00:00:00'),
-('Urban Planning Principles', 'Understand the principles of urban planning.', '2021-06-10 00:00:00'),
-('Sustainable Urban Development', 'Study sustainable practices in urban development.', '2021-07-01 00:00:00'),
-('Environmental Impact Assessment', 'Assess the environmental impacts of projects.', '2020-11-01 00:00:00'),
-('Sustainable Development Practices', 'Learn sustainable practices in development.', '2022-05-15 00:00:00'),
-('Disaster Risk Management', 'Manage and mitigate risks associated with disasters.', '2023-02-20 00:00:00'),
-('GIS Data Analysis', 'Analyze spatial data using GIS tools.', '2023-03-10 00:00:00'),
-('Urbanization Challenges', 'Examine challenges of urbanization worldwide.', '2021-08-25 00:00:00'),
-('Environmental Policy Analysis', 'Analyze and evaluate environmental policies.', '2024-04-01 00:00:00'),
-('Software Development Fundamentals', 'Learn the basics of software development.', '2024-05-10 00:00:00'),
-('Web Development Technologies', 'Explore web development tools and technologies.', '2024-05-15 00:00:00'),
-('Graphic Design Principles', 'Understand the principles of graphic design.', '2022-12-01 00:00:00'),
-('Visual Communication Techniques', 'Learn techniques for visual communication.', '2022-12-10 00:00:00'),
-('Data Structures and Algorithms', 'Learn key data structures and algorithms.', '2023-01-01 00:00:00'),
-('Machine Learning Fundamentals', 'Understand the basics of machine learning.', '2023-02-01 00:00:00'),
-('Ethics in Technology', 'Explore ethical considerations in modern technology.', '2023-06-01 00:00:00'),
-('Climate Change Adaptation Strategies', 'Learn strategies for adapting to climate change.', '2023-06-15 00:00:00');
-;
-
--- Seed for linking courses to programs
-INSERT INTO dic_programs_courses (program_id, course_id) VALUES
-(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
-(2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12),
-(3, 13), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18),
-(4, 19), (4, 20), (4, 21), (4, 22), (4, 23), (4, 24),
-(5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30),
-(6, 31), (6, 32), (6, 33), (6, 34), (6, 35), (6, 36);
-
 
 -- Seed for batches
 INSERT INTO dic_batches (name, year, description) VALUES
@@ -112,6 +63,82 @@ INSERT INTO dic_batches (name, year, description) VALUES
 ('2023/2024', 2023, 'Batch for the academic year 2023/2024.'),
 ('2024/2025', 2024, 'Batch for the academic year 2024/2025.'),
 ('2025/2026', 2025, 'Batch for the academic year 2025/2026.');
+
+
+-- Seed for accounts
+INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number, state, local_government, address)
+VALUES
+('Nathaniel', 'Coder', 'student@gmail.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '123 Street Name, Ikeja, Lagos'),
+('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ogun', 'Abeokuta', '456 Lane, Abeokuta, Ogun'),
+('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ekiti', 'Ado-Ekiti', '789 Ado Ekiti Road, Ekiti'),
+('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Enugu', 'Enugu', '234 Enugu Central, Enugu'),
+('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '112 Central Avenue, Abuja'),
+('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '32 Kaduna City Road, Kaduna'),
+('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Anambra', 'Awka', '56 Awka Road, Anambra'),
+('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Imo', 'Owerri', '78 Owerri Lane, Imo'),
+('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kano', 'Kano', '90 Kano Main Street, Kano'),
+('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Delta', 'Asaba', '123 Asaba Drive, Delta'),
+('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Borno', 'Maiduguri', '234 Maiduguri Main Street, Borno'),
+('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Rivers', 'Port Harcourt', '456 Port Harcourt Road, Rivers'),
+('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Oyo', 'Ibadan', '789 Ibadan Road, Oyo'),
+('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Benue', 'Makurdi', '123 Makurdi Street, Benue'),
+('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 2, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '456 Street, Ikeja, Lagos'),
+('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 2, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '12 Kaduna Road, Kaduna'),
+('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
+
+-- Seed for staffs
+INSERT INTO dic_staffs (account_id, department_id) VALUES
+(15, 1),
+(16, 2);
+
+-- Seed for courses
+INSERT INTO dic_courses (name, description, created_at, lecturer_id) VALUES
+('Introduction to Global Security', 'Learn the fundamentals of global security studies.', '2021-01-01 00:00:00', 1),
+('Understanding Terrorism', 'Examine terrorism as a global issue and its implications.', '2021-02-15 00:00:00', 2),
+('Security Policy Development', 'Develop security policies for various scenarios.', '2021-03-01 00:00:00', 1),
+('Global Trade Dynamics', 'Analyze trends in global trade and economics.', '2020-05-10 00:00:00', 2),
+('International Economic Policies', 'Explore policies affecting global trade.', '2020-06-20 00:00:00', 1),
+('Trade and Economic Development', 'Study trade as a tool for economic growth.', '2020-07-15 00:00:00', 2),
+('Introduction to Human Rights', 'Understand the foundations of human rights.', '2022-09-10 00:00:00', 1),
+('Global Humanitarian Challenges', 'Study humanitarian interventions worldwide.', '2022-09-18 00:00:00', 2),
+('Conflict and Human Rights', 'Examine the intersection of human rights and conflict.', '2022-10-05 00:00:00', 1),
+('Climate Policy Frameworks', 'Learn the structure of climate change policies.', '2023-03-12 00:00:00', 2),
+('Global Governance Systems', 'Explore governance in addressing climate challenges.', '2023-04-01 00:00:00', 1),
+('Climate Change and Society', 'Study the societal impacts of climate change.', '2023-04-15 00:00:00', 2),
+('Introduction to Diplomacy', 'Understand the basics of diplomatic relations.', '2024-01-10 00:00:00', 1),
+('Conflict Management Strategies', 'Learn effective strategies for managing conflicts.', '2024-01-20 00:00:00', 2),
+('Global Conflict Resolution', 'Analyze case studies of global conflict resolution.', '2024-02-05 00:00:00', 1),
+('Mediation Practices', 'Learn the art of mediation in resolving disputes.', '2024-02-25 00:00:00', 2),
+('Peacebuilding Strategies', 'Explore strategies to build and maintain peace.', '2024-03-05 00:00:00', 1),
+('Cartographic Techniques', 'Learn techniques for map-making and analysis.', '2022-08-01 00:00:00', 2),
+('GIS Applications in Geography', 'Apply GIS tools to geographical studies.', '2022-08-15 00:00:00', 1),
+('Remote Sensing Technologies', 'Explore technologies for remote sensing and analysis.', '2023-07-01 00:00:00', 2),
+('Urban Planning Principles', 'Understand the principles of urban planning.', '2021-06-10 00:00:00', 2),
+('Sustainable Urban Development', 'Study sustainable practices in urban development.', '2021-07-01 00:00:00', 2),
+('Environmental Impact Assessment', 'Assess the environmental impacts of projects.', '2020-11-01 00:00:00', 1),
+('Sustainable Development Practices', 'Learn sustainable practices in development.', '2022-05-15 00:00:00', 2),
+('Disaster Risk Management', 'Manage and mitigate risks associated with disasters.', '2023-02-20 00:00:00', 1),
+('GIS Data Analysis', 'Analyze spatial data using GIS tools.', '2023-03-10 00:00:00', 2),
+('Urbanization Challenges', 'Examine challenges of urbanization worldwide.', '2021-08-25 00:00:00', 1),
+('Environmental Policy Analysis', 'Analyze and evaluate environmental policies.', '2024-04-01 00:00:00', 1),
+('Software Development Fundamentals', 'Learn the basics of software development.', '2024-05-10 00:00:00', 1),
+('Web Development Technologies', 'Explore web development tools and technologies.', '2024-05-15 00:00:00', 1),
+('Graphic Design Principles', 'Understand the principles of graphic design.', '2022-12-01 00:00:00', 2),
+('Visual Communication Techniques', 'Learn techniques for visual communication.', '2022-12-10 00:00:00', 1),
+('Data Structures and Algorithms', 'Learn key data structures and algorithms.', '2023-01-01 00:00:00', 2),
+('Machine Learning Fundamentals', 'Understand the basics of machine learning.', '2023-02-01 00:00:00', 2),
+('Ethics in Technology', 'Explore ethical considerations in modern technology.', '2023-06-01 00:00:00', 1),
+('Climate Change Adaptation Strategies', 'Learn strategies for adapting to climate change.', '2023-06-15 00:00:00', 1);
+;
+
+-- Seed for linking courses to programs
+INSERT INTO dic_programs_courses (program_id, course_id) VALUES
+(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (1, 6),
+(2, 7), (2, 8), (2, 9), (2, 10), (2, 11), (2, 12),
+(3, 13), (3, 14), (3, 15), (3, 16), (3, 17), (3, 18),
+(4, 19), (4, 20), (4, 21), (4, 22), (4, 23), (4, 24),
+(5, 25), (5, 26), (5, 27), (5, 28), (5, 29), (5, 30),
+(6, 31), (6, 32), (6, 33), (6, 34), (6, 35), (6, 36);
 
 -- Seed for dic_course_videos
 INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
@@ -138,27 +165,6 @@ INSERT INTO dic_course_videos (course_id, video_url, title, description) VALUES
 (6, 'https://example.com/videos/peacebuilding.mp4', 'Peacebuilding Strategies', 
  'Explore practical strategies for building and maintaining peace.');
 
--- Seed for accounts
-INSERT INTO dic_accounts (first_name, last_name, email, gender, account_type_id, password, phone_number, state, local_government, address)
-VALUES
-('Nathaniel', 'Coder', 'student@gmail.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '123 Street Name, Ikeja, Lagos'),
-('Bolaji', 'Adebisi', 'bolaji.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ogun', 'Abeokuta', '456 Lane, Abeokuta, Ogun'),
-('Kemi', 'Oladele', 'kemi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Ekiti', 'Ado-Ekiti', '789 Ado Ekiti Road, Ekiti'),
-('Chinedu', 'Ibekwe', 'chinedu.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Enugu', 'Enugu', '234 Enugu Central, Enugu'),
-('Amaka', 'Eze', 'amaka.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '112 Central Avenue, Abuja'),
-('Ibrahim', 'Aliyu', 'ibrahim.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '32 Kaduna City Road, Kaduna'),
-('Ifeanyi', 'Okoro', 'ifeanyi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Anambra', 'Awka', '56 Awka Road, Anambra'),
-('Ngozi', 'Onwumere', 'ngozi.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Imo', 'Owerri', '78 Owerri Lane, Imo'),
-('Sheriff', 'Adamu', 'sheriff.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kano', 'Kano', '90 Kano Main Street, Kano'),
-('Sola', 'Ogunbiyi', 'sola.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Delta', 'Asaba', '123 Asaba Drive, Delta'),
-('Musa', 'Garba', 'musa.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Borno', 'Maiduguri', '234 Maiduguri Main Street, Borno'),
-('Chinwe', 'Nwosu', 'chinwe.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Rivers', 'Port Harcourt', '456 Port Harcourt Road, Rivers'),
-('Aisha', 'Mohammed', 'aisha.student@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Oyo', 'Ibadan', '789 Ibadan Road, Oyo'),
-('Chidi', 'Okafor', 'chidi.student@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Benue', 'Makurdi', '123 Makurdi Street, Benue'),
-('Funmilayo', 'Akinyemi', 'funmi.staff@example.com', 'Female', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Lagos', 'Ikeja', '456 Street, Ikeja, Lagos'),
-('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 1, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '12 Kaduna Road, Kaduna'),
-('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
-
 -- Seed for students
 INSERT INTO dic_students (account_id, batch_id, program_id, status) VALUES
 (1, 1, 1, 'Active'),
@@ -175,10 +181,6 @@ INSERT INTO dic_students (account_id, batch_id, program_id, status) VALUES
 (12, 6, 12, 'Active'),
 (13, 7, 13, 'Suspended');
 
--- Seed for staffs
-INSERT INTO dic_staffs (account_id, department_id) VALUES
-(14, 1),
-(15, 2);
 
 
 -- Seed for dic_courses_enrollments
@@ -292,17 +294,17 @@ INSERT INTO dic_exams (course_id, title, description, question_paper_url, start_
     150, 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- Seed data for dic_assignments
-INSERT INTO dic_assignments (course_id, title, description, due_date, pass_mark, created_at, updated_at) VALUES
-(1, 'Essay on Global Politics', 'Write a 2000-word essay on the role of global politics in international relations.', '2024-12-10', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, 'Research Paper on Crime Prevention', 'Submit a research paper discussing modern crime prevention methods and their effectiveness.', '2024-12-15', 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(3, 'Project on Sustainability Practices', 'Submit a project on sustainable farming practices for urban environments.', '2024-12-20', 55, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(4, 'Trade Policy Analysis', 'Analyze a recent trade policy and its impact on global trade dynamics.', '2024-12-25', 45, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(5, 'Human Rights Case Study', 'Present a case study on a human rights violation and the corresponding humanitarian intervention.', '2025-01-01', 65, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(6, 'Climate Change Policy Review', 'Review a climate change policy framework and propose improvements for better governance.', '2025-01-05', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(7, 'Conflict Resolution Strategies', 'Develop a set of conflict resolution strategies for a hypothetical conflict scenario.', '2025-01-10', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(8, 'Cartographic Map Project', 'Create a detailed map using cartographic techniques and present its analysis.', '2025-01-15', 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(9, 'Remote Sensing Data Analysis', 'Analyze remote sensing data to identify environmental changes and trends.', '2025-01-20', 65, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(10, 'Urban Planning Proposal', 'Develop a proposal for sustainable urban planning practices in a growing city.', '2025-01-25', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO dic_assignments (course_id, title, description, due_date, pass_mark, created_at, updated_at, assignment_url) VALUES
+(1, 'Essay on Global Politics', 'Write a 2000-word essay on the role of global politics in international relations.', '2024-12-10', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/essay-global-politics'),
+(2, 'Research Paper on Crime Prevention', 'Submit a research paper discussing modern crime prevention methods and their effectiveness.', '2024-12-15', 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/research-paper-crime-prevention'),
+(3, 'Project on Sustainability Practices', 'Submit a project on sustainable farming practices for urban environments.', '2024-12-20', 55, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/project-sustainability-practices'),
+(4, 'Trade Policy Analysis', 'Analyze a recent trade policy and its impact on global trade dynamics.', '2024-12-25', 45, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/trade-policy-analysis'),
+(5, 'Human Rights Case Study', 'Present a case study on a human rights violation and the corresponding humanitarian intervention.', '2025-01-01', 65, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/human-rights-case-study'),
+(6, 'Climate Change Policy Review', 'Review a climate change policy framework and propose improvements for better governance.', '2025-01-05', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/climate-change-policy-review'),
+(7, 'Conflict Resolution Strategies', 'Develop a set of conflict resolution strategies for a hypothetical conflict scenario.', '2025-01-10', 60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/conflict-resolution-strategies'),
+(8, 'Cartographic Map Project', 'Create a detailed map using cartographic techniques and present its analysis.', '2025-01-15', 50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/cartographic-map-project'),
+(9, 'Remote Sensing Data Analysis', 'Analyze remote sensing data to identify environmental changes and trends.', '2025-01-20', 65, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/remote-sensing-data-analysis'),
+(10, 'Urban Planning Proposal', 'Develop a proposal for sustainable urban planning practices in a growing city.', '2025-01-25', 70, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'http://example.com/assignments/urban-planning-proposal');
 
 -- Seed data for dic_assignment_submissions
 INSERT INTO dic_assignment_submissions (assignment_id, student_id, submission_url, score, created_at, updated_at) VALUES
