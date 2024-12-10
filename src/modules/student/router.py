@@ -90,3 +90,15 @@ async def get_student_assignments(
 
     id = student_id if student_id else current_user.id
     return await student_manager.get_student_assignments(id)
+
+
+@student_router.post("/assignments/submit", status_code=status.HTTP_200_OK)
+async def submit_assignment(
+    data: dict,
+    current_user: user_dependency,
+    student_id: Optional[int] = Query(None),
+):
+    logging.info("Get student assignment submissions")
+
+    id = student_id if student_id else current_user.id
+    return await student_manager.submit_assignment(id, data)

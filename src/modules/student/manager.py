@@ -77,13 +77,16 @@ class StudentManager(BaseManager):
                     s.id AS student_id,
                     COUNT(DISTINCT e.id) AS total_exams,
                     COUNT(DISTINCT er.id) AS attempted_exams,
-                    COUNT(DISTINCT CASE WHEN er.score >= e.pass_mark THEN er.id END) 
+                    COUNT(DISTINCT CASE WHEN 
+                        er.score >= e.pass_mark THEN er.id END) 
                         AS passed_exams,
-                    COUNT(DISTINCT CASE WHEN er.score < e.pass_mark THEN er.id END) 
+                    COUNT(DISTINCT CASE WHEN 
+                        er.score < e.pass_mark THEN er.id END) 
                         AS failed_exams
                 FROM {self.students_table} s
                 LEFT JOIN {self.programs_table} p ON p.id = s.program_id
-                LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id
+                LEFT JOIN {self.programs_courses_table} pc 
+                    ON pc.program_id = p.id
                 LEFT JOIN {self.exams_table} e ON e.course_id = pc.course_id
                 LEFT JOIN {self.exam_results_table} er 
                     ON er.exam_id = e.id AND er.student_id = s.id
@@ -95,20 +98,25 @@ class StudentManager(BaseManager):
                     s.id AS student_id,
                     COUNT(DISTINCT asm.id) AS total_assignments,
                     COUNT(DISTINCT asub.id) AS submitted_assignments,
-                    COUNT(DISTINCT CASE WHEN asub.score >= asm.pass_mark THEN asub.id END) 
+                    COUNT(DISTINCT CASE WHEN asub.score >= asm.pass_mark 
+                        THEN asub.id END) 
                         AS passed_assignments,
-                    COUNT(DISTINCT CASE WHEN asub.score < asm.pass_mark THEN asub.id END) 
+                    COUNT(DISTINCT CASE WHEN asub.score < asm.pass_mark 
+                        THEN asub.id END) 
                         AS failed_assignments
                 FROM {self.students_table} s
                 LEFT JOIN {self.programs_table} p ON p.id = s.program_id
-                LEFT JOIN {self.programs_courses_table} pc ON pc.program_id = p.id
-                LEFT JOIN {self.assignments_table} asm ON asm.course_id = pc.course_id
+                LEFT JOIN {self.programs_courses_table} pc 
+                    ON pc.program_id = p.id
+                LEFT JOIN {self.assignments_table} asm 
+                    ON asm.course_id = pc.course_id
                 LEFT JOIN {self.assignment_submissions_table} asub 
                     ON asub.assignment_id = asm.id AND asub.student_id = s.id
                 WHERE s.id = %s
                 GROUP BY s.id
             )
-            SELECT DISTINCT ON (s.id) 
+            SELECT DISTINCT ON (s.id)
+                s.id AS student_id,
                 d.name AS department,
                 d.head_of_department,
                 dg.name AS degree,
@@ -117,7 +125,8 @@ class StudentManager(BaseManager):
                 a.first_name || ' ' || a.last_name AS full_name,
                 s.next_of_kin_name AS next_of_kin,
                 TO_CHAR(p.created_at, 'DD Mon YYYY') AS program_start,
-                TO_CHAR(p.created_at + INTERVAL '1 year', 'DD Mon YYYY') AS program_end,
+                TO_CHAR(p.created_at + INTERVAL '1 year', 'DD Mon YYYY') 
+                    AS program_end,
                 a.state,
                 a.local_government,
                 a.address,
@@ -241,11 +250,14 @@ class StudentManager(BaseManager):
                 a.id AS student_id,
                 c.name AS course_name,
                 e.title AS exam_title,
-                TO_CHAR(er.created_at, 'HH12:MI AM | DD Month YYYY') AS result_date,
+                TO_CHAR(er.created_at, 'HH12:MI AM | DD Month YYYY') 
+                AS result_date,
                 er.score AS student_score,
                 e.pass_mark AS passing_mark,
-                ROUND((er.score::FLOAT / e.pass_mark * 100)::NUMERIC, 2) AS student_percentage,
-                ROUND((e.pass_mark::FLOAT / e.duration * 100)::NUMERIC, 2) AS passing_percentage,
+                ROUND((er.score::FLOAT / e.pass_mark * 100)::NUMERIC, 2) 
+                    AS student_percentage,
+                ROUND((e.pass_mark::FLOAT / e.duration * 100)::NUMERIC, 2) 
+                    AS passing_percentage,
                 e.question_paper_url AS question_paper_url,
                 er.student_submission_url AS student_response_url
             FROM {self.exam_results_table} er
@@ -256,3 +268,18 @@ class StudentManager(BaseManager):
         """
         results = self.db.select(query, (exam_id, student_id))
         return results if results else []
+
+    async def submit_assignment(self, student_id, data):
+        assignment_id = data.get("assignment_id")
+        submission = data.get("submission_url")
+
+        query = f"""
+            INSERT INTO {self.assignment_submissions_table} 
+            (student_id, assignment_id, submission_url)
+            VALUES (%s, %s, %s)
+            RETURNING id
+        """
+        return self.db.commit(
+            query,
+            (student_id, assignment_id, submission),
+        )
