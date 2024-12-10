@@ -10,6 +10,7 @@ from src.modules.course.router import course_router
 from src.modules.dashboard.router import dashboard_router
 from src.modules.department.router import department_router
 from src.modules.program.router import program_router
+from src.modules.staff.router import staff_router
 from src.modules.student.router import student_router
 from src.shared.error_handler import CustomError
 
@@ -50,6 +51,7 @@ router.include_router(program_router)
 router.include_router(department_router)
 router.include_router(course_router)
 router.include_router(student_router)
+router.include_router(staff_router)
 router.include_router(batch_router)
 router.include_router(assignment_router)
 

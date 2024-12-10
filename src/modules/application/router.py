@@ -61,3 +61,12 @@ async def get_application(application_id: int):
     logging.info("Get Application")
 
     return await application_manager.get_application(application_id)
+
+
+@application_router.post(
+    "/{application_id}/approve", status_code=status.HTTP_200_OK
+)
+async def approve_application(application_id: int):
+    logging.info("Approve Application")
+
+    return await application_manager.approve_application(application_id)

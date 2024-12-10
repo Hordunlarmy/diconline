@@ -7,14 +7,16 @@ CREATE TABLE IF NOT EXISTS dic_account_types (
 
 CREATE TABLE IF NOT EXISTS dic_accounts (
     id SERIAL PRIMARY KEY,
+    photo_url VARCHAR(255) DEFAULT 'https://res.cloudinary.com/dsueaitln/image/upload/v1733239113/istockphoto-522855255-612x612_eyv1vf.jpg',
     first_name VARCHAR(255),
     last_name VARCHAR(255),
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     phone_number VARCHAR(255),
     state VARCHAR(255),
     local_government VARCHAR(255),
     address TEXT,
     gender VARCHAR(255),
+    date_of_birth DATE,
     account_type_id INT NOT NULL,
     password VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

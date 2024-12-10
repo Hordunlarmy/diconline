@@ -1,4 +1,11 @@
+import random
+import string
+
+from decouple import config
+
+from src.shared.auth import get_password_hash
 from src.shared.database import Database, database
+from src.shared.email import sender
 from src.shared.error_handler import CustomError
 from src.shared.file_handler import upload_file
 from src.shared.manager import BaseManager
@@ -100,3 +107,75 @@ class ApplicationManager(BaseManager):
                 application_form_url,
             ),
         )
+
+    async def approve_application(self, application_id):
+        approve_query = f"""
+            UPDATE {self.applications_table}
+            SET status = 'Approved'
+            WHERE id = %s
+        """
+        self.db.commit(approve_query, (application_id,))
+
+        application = await self.get_application(application_id)
+        if application:
+            application = application[0]
+        else:
+            raise ValueError("Application not found")
+
+        password = self.generate_password()
+
+        create_account_query = f"""
+            INSERT INTO {self.accounts_table}
+            (photo_url, first_name, last_name, email, phone_number, gender, 
+             account_type_id, password, date_of_birth)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+            RETURNING id
+        """
+        account_data = (
+            application["photo_url"],
+            application["first_name"],
+            application["last_name"],
+            application["email"],
+            application["phone_number"],
+            application["gender"],
+            1,
+            get_password_hash(password),
+            application["date_of_birth"],
+        )
+
+        account_id = self.db.commit(create_account_query, account_data)
+
+        print(account_id)
+
+        create_student_query = f"""
+            INSERT INTO {self.students_table}
+            (account_id, batch_id, program_id)
+            VALUES (%s, %s, %s);
+        """
+        student_data = (
+            account_id,
+            6,
+            application["program_id"],
+        )
+
+        self.db.commit(create_student_query, student_data)
+
+        template_variables = {
+            "name": f"{application['first_name']} {application['last_name']}",
+            "email": application["email"],
+            "password": password,
+            "login_link": config("LOGIN_URL"),
+        }
+
+        sender.send_login_details(
+            recipient_email=application["email"],
+            recipient_name=template_variables["name"],
+            template_variables=template_variables,
+        )
+
+        return {"email": application["email"], "password": password}
+
+    def generate_password(self, length=12):
+
+        characters = string.ascii_letters + string.digits + string.punctuation
+        return "".join(random.choices(characters, k=length))

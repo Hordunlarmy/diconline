@@ -86,3 +86,17 @@ class BaseManager:
 
         count_result = self.db.select(count_query)
         return count_result[0]["count"] if count_result else 0
+
+    async def _get_staffs_count(self, status_filter=None):
+        count_query = f"""
+            SELECT COUNT(*)
+            FROM {self.staffs_table} s
+            LEFT JOIN {self.accounts_table} a ON a.id = s.account_id
+            LEFT JOIN {self.departments_table} d ON d.id = s.department_id
+        """
+
+        if status_filter:
+            count_query += f" WHERE s.status = '{status_filter}'"
+
+        count_result = self.db.select(count_query)
+        return count_result[0]["count"] if count_result else 0
