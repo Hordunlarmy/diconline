@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS dic_courses (
     lecturer_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_lecturer FOREIGN KEY (lecturer_id) REFERENCES dic_staffs(id)
+    CONSTRAINT fk_lecturer FOREIGN KEY (lecturer_id) REFERENCES dic_accounts(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_programs_courses (

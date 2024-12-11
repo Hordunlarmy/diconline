@@ -36,7 +36,7 @@ async def get_staffs(
     )
 
 
-@staff_router.get("/", status_code=status.HTTP_200_OK)
+@staff_router.get("/profile", status_code=status.HTTP_200_OK)
 async def get_staff(
     current_user: user_dependency,
     staff_id: Optional[int] = Query(None),
@@ -45,3 +45,14 @@ async def get_staff(
 
     id = staff_id if staff_id else current_user.id
     return await staff_manager.get_staff(id)
+
+
+@staff_router.get("/courses", status_code=status.HTTP_200_OK)
+async def get_staff_courses(
+    current_user: user_dependency,
+    staff_id: Optional[int] = Query(None),
+):
+    logging.info("Get staff courses")
+
+    id = staff_id if staff_id else current_user.id
+    return await staff_manager.get_staff_courses(id)
