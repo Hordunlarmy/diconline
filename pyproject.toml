@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "dic"
+name = "diconline"
 version = "0.1.0"
 description = ""
 authors = ["Hordunlarmy <Hordunlarmy@gmail.com>"]
