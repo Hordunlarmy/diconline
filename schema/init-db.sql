@@ -60,15 +60,24 @@ CREATE TABLE IF NOT EXISTS dic_programs (
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
 );
 
+CREATE TABLE IF NOT EXISTS dic_staffs_roles (
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS dic_staffs (
     id SERIAL PRIMARY KEY,
     account_id INT NOT NULL,
     department_id INT NOT NULL,
     status VARCHAR(255) DEFAULT 'Active' CHECK (status IN ('Active', 'Resigned', 'Suspended')),
+    role_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
-    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
+    CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id),
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES dic_staffs_roles(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_courses (

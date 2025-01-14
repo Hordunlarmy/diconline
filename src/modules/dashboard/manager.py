@@ -27,6 +27,38 @@ class DashboardManager(BaseManager):
         """
         return self.db.select(query)
 
+    async def get_department_dashboard(self, data):
+        page = data.get("page", 1)
+        page_size = data.get("page_size", 10)
+
+        offset = (page - 1) * page_size
+
+        query = f"""
+            SELECT 
+                d.name AS department_name,
+                COUNT(DISTINCT s.id) AS total_students
+            FROM {self.departments_table} d
+            LEFT JOIN {self.programs_table} p ON p.department_id = d.id
+            LEFT JOIN {self.students_table} s ON s.program_id = p.id
+            GROUP BY d.name
+            LIMIT {page_size} OFFSET {offset}
+        """
+
+        data = self.db.select(query)
+
+        count_query = f"""
+            SELECT COUNT(DISTINCT d.id)
+            FROM {self.departments_table} d
+            LEFT JOIN {self.programs_table} p ON p.department_id = d.id
+            LEFT JOIN {self.students_table} s ON s.program_id = p.id
+        """
+        result = self.db.select(count_query)
+        total_count = result[0]["count"] if result else 0
+
+        return await self._pagination_response(
+            data, total_count, page, page_size
+        )
+
     async def get_student_dashboard(self, student_id):
         query = f"""
             -- Get current year data

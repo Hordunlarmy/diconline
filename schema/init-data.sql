@@ -86,10 +86,16 @@ VALUES
 ('Bello', 'Ahmed', 'bello.staff@example.com', 'Male', 2, crypt('password', gen_salt('bf')), '+2347012345678', 'Kaduna', 'Kaduna', '12 Kaduna Road, Kaduna'),
 ('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
 
+-- Seed for staffs roles
+INSERT INTO dic_staffs_roles (role)
+VALUES
+('teaching'),
+('non-teaching');
+
 -- Seed for staffs
-INSERT INTO dic_staffs (account_id, department_id) VALUES
-(15, 1),
-(16, 2);
+INSERT INTO dic_staffs (account_id, department_id, role_id) VALUES
+(15, 1, 1),
+(16, 2, 2);
 
 -- Seed for courses
 INSERT INTO dic_courses (name, description, created_at, lecturer_id) VALUES

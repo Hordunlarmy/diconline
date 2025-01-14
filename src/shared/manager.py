@@ -60,14 +60,18 @@ class BaseManager:
         )
         return jwt
 
-    async def _get_applications_count(self, status_filter=None):
+    async def _get_count(self, table, joins=None, filter_condition=None):
         count_query = f"""
-            SELECT COUNT(*) AS count
-            FROM {self.applications_table} a
+            SELECT COUNT(*)
+            FROM {table}
         """
 
-        if status_filter:
-            count_query += f" WHERE a.status = '{status_filter}'"
+        if joins:
+            for join in joins:
+                count_query += f" {join}"
+
+        if filter_condition:
+            count_query += f" WHERE {filter_condition}"
 
         count_result = self.db.select(count_query)
         return count_result[0]["count"] if count_result else 0
@@ -100,3 +104,20 @@ class BaseManager:
 
         count_result = self.db.select(count_query)
         return count_result[0]["count"] if count_result else 0
+
+    async def _pagination_response(self, data, total_count, page, page_size):
+        total_pages = (total_count // page_size) + (
+            1 if total_count % page_size > 0 else 0
+        )
+
+        total_pages = max(total_pages, 1) if total_count > 0 else 0
+
+        return {
+            "data": data,
+            "meta": {
+                "total": total_count,
+                "total_pages": total_pages,
+                "current_page": page,
+                "page_size": page_size,
+            },
+        }

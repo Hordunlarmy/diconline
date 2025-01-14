@@ -43,21 +43,19 @@ class ApplicationManager(BaseManager):
         )
 
         data_result = self.db.select(query)
-        total_count = await self._get_applications_count(status_filter)
 
-        total_pages = (total_count // page_size) + (
-            1 if total_count % page_size > 0 else 0
+        filter_condition = (
+            f"a.status = '{status_filter}'" if status_filter else None
         )
 
-        return {
-            "data": data_result,
-            "meta": {
-                "total": len(data_result),
-                "total_pages": total_pages,
-                "current_page": page,
-                "page_size": page_size,
-            },
-        }
+        total_count = await self._get_count(
+            self.applications_table,
+            filter_condition=filter_condition,
+        )
+
+        return await self._pagination_response(
+            data_result, total_count, page, page_size
+        )
 
     async def get_application(self, application_id):
         query = f"""
@@ -69,7 +67,8 @@ class ApplicationManager(BaseManager):
             JOIN {self.degrees_table} dg ON dg.id = p.degree_id
             WHERE a.id = %s
             """
-        return self.db.select(query, (application_id,))
+        result = self.db.select(query, (application_id,))
+        return result[0] if result else None
 
     async def create_application(self, data):
         if data["photo"]:

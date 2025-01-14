@@ -56,19 +56,9 @@ class StudentManager(BaseManager):
             data_result = self.db.select(query)
             total_count = await self._get_students_count(status_filter)
 
-            total_pages = (total_count // page_size) + (
-                1 if total_count % page_size > 0 else 0
+            return await self._pagination_response(
+                data_result, total_count, page, page_size
             )
-
-            return {
-                "data": data_result,
-                "meta": {
-                    "total": len(data_result),
-                    "total_pages": total_pages,
-                    "current_page": page,
-                    "page_size": page_size,
-                },
-            }
 
     async def get_student_profile(self, student_id):
         query = f"""
