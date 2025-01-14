@@ -87,7 +87,7 @@ VALUES
 ('Sam', 'Loco', 'admin@gmail.com', 'Male', 3, crypt('password', gen_salt('bf')), '+2347012345678', 'Abuja', 'Central', '101 Central Street, Abuja');
 
 -- Seed for staffs roles
-INSERT INTO dic_staffs_roles (role)
+INSERT INTO dic_staff_roles (role)
 VALUES
 ('teaching'),
 ('non-teaching');

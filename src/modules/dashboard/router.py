@@ -17,6 +17,11 @@ async def get_dashboard():
     return await dashboard_manager.get_dashboard()
 
 
+@dashboard_router.get("/staff", status_code=status.HTTP_200_OK)
+async def get_staff_dashboard():
+    return await dashboard_manager.get_staff_dashboard()
+
+
 @dashboard_router.get("/department", status_code=status.HTTP_200_OK)
 async def get_department_dashboard(
     page_size: Optional[int] = Query(10, ge=1, le=100),

@@ -59,6 +59,21 @@ class DashboardManager(BaseManager):
             data, total_count, page, page_size
         )
 
+    async def get_staff_dashboard(self):
+        count_query = f"""
+            SELECT 
+                COUNT(*) FILTER (WHERE r.role = 'teaching') 
+                    AS teaching_staffs,
+                COUNT(*) FILTER (WHERE r.role = 'non-teaching') 
+                    AS non_teaching_staffs,
+                COUNT(*) AS total_staff
+            FROM {self.staffs_table} s
+            JOIN {self.staff_roles_table} r ON s.role_id = r.id
+        """
+        result = self.db.select(count_query)
+
+        return result[0] if result else {}
+
     async def get_student_dashboard(self, student_id):
         query = f"""
             -- Get current year data

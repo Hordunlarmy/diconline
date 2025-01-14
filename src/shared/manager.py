@@ -20,6 +20,7 @@ class BaseManager:
         self.accounts_table = "dic_accounts"
         self.account_types_table = "dic_account_types"
         self.staffs_table = "dic_staffs"
+        self.staff_roles_table = "dic_staff_roles"
         self.batches_table = "dic_batches"
         self.exams_table = "dic_exams"
         self.exam_results_table = "dic_exam_results"

@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS dic_programs (
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id)
 );
 
-CREATE TABLE IF NOT EXISTS dic_staffs_roles (
+CREATE TABLE IF NOT EXISTS dic_staff_roles (
     id SERIAL PRIMARY KEY,
     role VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS dic_staffs (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_account FOREIGN KEY (account_id) REFERENCES dic_accounts(id),
     CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES dic_departments(id),
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES dic_staffs_roles(id)
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES dic_staff_roles(id)
 );
 
 CREATE TABLE IF NOT EXISTS dic_courses (
